@@ -28,3 +28,8 @@ requests==2.11.1
 six==1.10.0
 SQLAlchemy==1.0.14
 Werkzeug==0.11.10
+elasticsearch==6.0.0
+elasticsearch-dsl==5.4.0
+certifi==2018.4.16
+Flask-WTF==0.12
+WTForms==2.1

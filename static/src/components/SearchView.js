@@ -1,6 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import {Switch, Redirect} from 'react-router';
 
 import AutoComplete from 'material-ui/AutoComplete';
 import SearchBar from 'material-ui-search-bar';
@@ -37,6 +38,8 @@ export default class SearchView extends React.Component {
     	super(props);
     	 this.state = {
              search_phrase: '',
+             redirect: false,
+             next_page_data: "test"
          };
          this.changeValue = this.changeValue.bind(this);
          this.requestSearch = this.requestSearch.bind(this);
@@ -59,12 +62,22 @@ export default class SearchView extends React.Component {
   		var esc = encodeURIComponent;
 		var query = Object.keys(data)
     				.map(k => esc(k) + '=' + esc(data[k]))
-    				.join('&');
+                    .join('&');
+        var parentThis = this;
 
     	console.log(query)
         fetch("/api/search?"+query, {
-  			method: "GET",
-			});
+              method: "GET",
+            }).then((resp) => resp.json()).
+            then(function(data){
+                console.log("parent: ", parentThis);
+                parentThis.props.router.push({
+                    pathname: '/register',
+                    state: {response: data}
+                });
+                }
+            );
+            
     }
 
 
@@ -88,10 +101,8 @@ export default class SearchView extends React.Component {
       							}}
     						/>
                             
-
+                            
                         </div>
-            
-                
 
             </div>
         );
