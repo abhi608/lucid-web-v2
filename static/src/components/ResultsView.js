@@ -2,15 +2,12 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Switch, Redirect} from 'react-router';
-
-import AutoComplete from 'material-ui/AutoComplete';
-import SearchBar from 'material-ui-search-bar';
 import Paper from 'material-ui/Paper';
 
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
-import SearchView from './SearchView'
+import SearchViewResults from './SearchViewResults'
 
 function mapStateToProps(state) {
     return {
@@ -24,7 +21,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class caseCard extends React.Component {
+export class caseCard extends React.Component {
 
     constructor(props) {
     	super(props);
@@ -39,7 +36,7 @@ export default class caseCard extends React.Component {
     	return(
 
     		<div>
-                
+                <SearchViewResults {...this.props}/>
             </div>
         );
 
@@ -72,7 +69,7 @@ export default class ResultsView extends React.Component {
     	return(
 
     		<div className>
-                <SearchView {...this.props}/>
+                <SearchViewResults {...this.props}/>
             </div>
         );
 

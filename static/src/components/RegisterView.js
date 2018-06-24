@@ -4,8 +4,9 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
+import PropTypes from 'prop-types';
 
 import * as actionCreators from '../actions/auth';
 
@@ -145,12 +146,13 @@ export default class RegisterView extends React.Component {
                             />
                         </div>
 
-                        <RaisedButton
+                        <Button
                           disabled={this.state.disabled}
                           style={{ marginTop: 50 }}
-                          label="Submit"
                           onClick={(e) => this.login(e)}
-                        />
+                        >
+                        Submit
+                        </Button>
 
                     </div>
                 </Paper>
@@ -162,6 +164,6 @@ export default class RegisterView extends React.Component {
 }
 
 RegisterView.propTypes = {
-    registerUser: React.PropTypes.func,
-    registerStatusText: React.PropTypes.string,
+    registerUser: PropTypes.func,
+    registerStatusText: PropTypes.string,
 };

@@ -31,7 +31,7 @@ const style = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class SearchView extends React.Component {
+export default class SearchViewResults extends React.Component {
 
     constructor(props) {
     	super(props);
@@ -82,26 +82,19 @@ export default class SearchView extends React.Component {
     render(){
     	return(
     		<div className="col-md-6 col-md-offset-3">
-                
-                    
-                        <div className="text-center">
-                            <h2>Lucid-Law</h2>
+                <div className="text-center">
+                        <SearchBar
+                            name="search_phrase"
+                            value={this.state.search_phrase}
+                            onChange={this.changeValue}
+                            onRequestSearch={this.requestSearch}
+                            style={{
+                            margin: '0 auto',
+                            maxWidth: 800
+                            }}
+                        />
                             
-
-                            <SearchBar
-                            	name="search_phrase"
-                            	value={this.state.search_phrase}
-      							onChange={this.changeValue}
-      							onRequestSearch={this.requestSearch}
-      							style={{
-        						margin: '0 auto',
-        						maxWidth: 800
-      							}}
-    						/>
-                            
-                            
-                        </div>
-
+                </div>
             </div>
         );
 

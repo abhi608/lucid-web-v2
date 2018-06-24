@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import * as actionCreators from '../actions/auth';
+import PropTypes from 'prop-types';
 
 function mapStateToProps(state) {
     return {
@@ -80,8 +81,8 @@ export function requireAuthentication(Component) {
     }
 
     AuthenticatedComponent.propTypes = {
-        loginUserSuccess: React.PropTypes.func,
-        isAuthenticated: React.PropTypes.bool,
+        loginUserSuccess: PropTypes.func,
+        isAuthenticated: PropTypes.bool,
     };
 
     return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AppBar from 'material-ui/AppBar';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from "@material-ui/core/Typography";
+// import Button from "@material-ui/core/Button";
 import LeftNav from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/Button';
 import Divider from 'material-ui/Divider';
+import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';
 
@@ -65,37 +68,24 @@ export class Header extends Component {
     render() {
         return (
             <header>
-                <LeftNav open={this.state.open}>
-                    {
-                        !this.props.isAuthenticated ?
-                            <div>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/login')}>
-                                    Login
-                                </MenuItem>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/register')}>
-                                    Register
-                                </MenuItem>
-                            </div>
-                            :
-                            <div>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/analytics')}>
-                                    Analytics
-                                </MenuItem>
-                                <Divider />
-
-                                <MenuItem onClick={(e) => this.logout(e)}>
-                                    Logout
-                                </MenuItem>
-                            </div>
-                    }
-                </LeftNav>
-                <AppBar
+                {/* <AppBar
                   title="Lucid Law"
-                  onLeftIconButtonTouchTap={() => this.openNav()}
                   iconElementRight={
-                      <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
+                      <Button onClick={() => this.dispatchNewRoute('/')}>Home</Button>
                     }
-                />
+                >
+
+                </AppBar> */}
+                <div style={{flexGrow: 1}}>
+                    <AppBar position="static">
+                        <Toolbar>
+                        <Typography variant="title" color="inherit" style={{flex: 1}}>
+                            Lucid Law
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                        </Toolbar>
+                    </AppBar>
+                </div>
             </header>
 
         );
@@ -103,6 +93,6 @@ export class Header extends Component {
 }
 
 Header.propTypes = {
-    logoutAndRedirect: React.PropTypes.func,
-    isAuthenticated: React.PropTypes.bool,
+    logoutAndRedirect: PropTypes.func,
+    isAuthenticated: PropTypes.bool,
 };

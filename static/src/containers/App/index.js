@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import createMuiTheme from 'material-ui/styles/createMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /* application components */
@@ -10,14 +11,20 @@ import { Footer } from '../../components/Footer';
 /* global styles for app */
 import './styles/app.scss';
 
+const theme = createMuiTheme({
+    palette: {
+        type: 'dark'
+    }
+});
+
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
-        children: React.PropTypes.node,
+        children: PropTypes.node,
     };
 
     render() {
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <MuiThemeProvider theme={theme}>
                 <section>
                     <Header />
                     <div
