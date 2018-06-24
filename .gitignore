@@ -9,3 +9,5 @@ node_modules
 *.pyc
 tmp
 static/dist
+.vscode/
+migrations/

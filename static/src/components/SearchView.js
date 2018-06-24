@@ -38,8 +38,6 @@ export default class SearchView extends React.Component {
     	super(props);
     	 this.state = {
              search_phrase: '',
-             redirect: false,
-             next_page_data: "test"
          };
          this.changeValue = this.changeValue.bind(this);
          this.requestSearch = this.requestSearch.bind(this);
@@ -56,7 +54,7 @@ export default class SearchView extends React.Component {
 
     requestSearch(e) {
         var data = {
-  				search_phrase:this.state.search_phrase,
+                  search_phrase:this.state.search_phrase,
   				};
 
   		var esc = encodeURIComponent;
@@ -72,7 +70,8 @@ export default class SearchView extends React.Component {
             then(function(data){
                 console.log("parent: ", parentThis);
                 parentThis.props.router.push({
-                    pathname: '/register',
+                    pathname: '/results',
+                    search: "?search_phrase="+query,
                     state: {response: data}
                 });
                 }
