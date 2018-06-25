@@ -49,15 +49,32 @@ export default class CaseCard extends React.Component {
 
     constructor(props) {
     	super(props);
-    	 this.state = {
-             title: null,
-             tid: '',
-	     bench: null,
-	     doc_type: null,
-	     highlights: null,
-	     source: null,
-         };
-    }
+		this.state = {
+			title: null,
+			tid: '',
+			bench: null,
+			doc_type: null,
+			highlights: null,
+			source: null,
+		};
+		this.showDocument = this.showDocument.bind(this);
+	}
+	
+	showDocument() {
+		var parentThis = this;
+		console.log("clicked");
+		var tid = this.props.tid.toString();
+		fetch("/api/fetchdoc?tid="+tid, {
+			method: "GET",
+		}).then((resp) => resp.json()).
+		then(function(data){
+			parentThis.props.router.push({
+				pathname: '/doc',
+				search: "?tid="+tid,
+				state: {response: data}
+			});
+		});
+	}
 
     render(){
 	console.log("card",this.state)
@@ -79,7 +96,7 @@ export default class CaseCard extends React.Component {
   	            </Typography>
 	        </CardContent>
 	        <CardActions>
-  	            <Button size="small">View More</Button>
+  	            <Button size="small" onClick={this.showDocument}>View More</Button>
 	        </CardActions>
 	    </Card>
 	</div>

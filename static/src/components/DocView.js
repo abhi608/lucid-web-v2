@@ -25,25 +25,19 @@ function mapDispatchToProps(dispatch) {
 
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class ResultsView extends React.Component {
+export default class DocView extends React.Component {
 
     constructor(props) {
     	super(props);
 	console.log("init state",this.props.location.state.response);
-        this.state = this.props.location.state.response;	
-	console.log("Assigned state",this.state.search_results.doc_list)
+        this.state = this.props.location.state.response;
     }
 
 
     render(){
-	const docs = this.state.search_results.doc_list;
     	return(
 
     		<div className="col-md-8 col-md-offset-2" style={{paddingTop: 60}}> 
-		     {docs.map(function(d, idx){
-			 return (<CaseCard title={d.title} tid={d.tid} key={d.tid} 
-				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
-		       })}
             </div>
         );
 
