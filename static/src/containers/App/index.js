@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import createMuiTheme from 'material-ui/styles/createMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
+import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
 /* application components */
 import { Header } from '../../components/Header';
@@ -24,7 +24,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
+            // <MuiThemeProvider muiTheme={theme}>
                 <section>
                     <Header {...this.props}/>
                     <div
@@ -37,7 +37,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
                         <Footer />
                     </div>
                 </section>
-            </MuiThemeProvider>
+            // </MuiThemeProvider>
         );
     }
 }
