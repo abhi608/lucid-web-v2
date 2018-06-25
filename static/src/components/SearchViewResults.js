@@ -81,7 +81,7 @@ export default class SearchViewResults extends React.Component {
 
     render(){
     	return(
-    		<div className="col-md-6 col-md-offset-3">
+    		<div className="col-md-6 col-md-offset-0">
                 <div className="text-center">
                         <SearchBar
                             name="search_phrase"
@@ -89,8 +89,8 @@ export default class SearchViewResults extends React.Component {
                             onChange={this.changeValue}
                             onRequestSearch={this.requestSearch}
                             style={{
-                            margin: '0 auto',
-                            maxWidth: 800
+                            maxWidth: 500,
+                            marginLeft: 70, marginTop: -10, height: 36, width: 400
                             }}
                         />
                             

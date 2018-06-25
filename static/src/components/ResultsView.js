@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper';
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
-import SearchViewResults from './SearchViewResults'
+import SearchViewResults from './SearchViewResults';
 
 function mapStateToProps(state) {
     return {
@@ -36,7 +36,7 @@ export class caseCard extends React.Component {
     	return(
 
     		<div>
-                <SearchViewResults {...this.props}/>
+                {/* <SearchViewResults {...this.props}/> */}
             </div>
         );
 
@@ -68,8 +68,8 @@ export default class ResultsView extends React.Component {
     render(){
     	return(
 
-    		<div className>
-                <SearchViewResults {...this.props}/>
+            <div>
+                {/* <SearchViewResults {...this.props}/> */}
             </div>
         );
 

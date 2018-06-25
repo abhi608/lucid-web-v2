@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider';
 import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';
+import SearchViewResults from '../SearchViewResults';
 
 function mapStateToProps(state) {
     return {
@@ -68,21 +69,21 @@ export class Header extends Component {
     render() {
         return (
             <header>
-                {/* <AppBar
-                  title="Lucid Law"
-                  iconElementRight={
-                      <Button onClick={() => this.dispatchNewRoute('/')}>Home</Button>
-                    }
-                >
-
-                </AppBar> */}
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="static">
-                        <Toolbar>
-                        <Typography variant="title" color="inherit" style={{flex: 1}}>
-                            Lucid Law
-                        </Typography>
-                        <Button color="inherit">Login</Button>
+                    <AppBar position="fixed" style={{ height: 45, backgroundColor: 'green' }}>
+                        <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
+                            <Typography variant="title" color="inherit" style={{flex: 1, fontSize: '15px',  marginLeft: 50, marginTop: -10}}>
+                                LUCID LAW
+                            </Typography>
+                            {this.props.location.pathname == '/results' ?
+                                <SearchViewResults  {...this.props} openSearch={true}/> :
+                                console.log("not /results")
+                            }
+                            {this.props.location.pathname == '/results' ?
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}}>Filter</Button> :
+                                console.log("not /results")
+                            }                           
+                            <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>

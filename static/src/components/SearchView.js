@@ -85,7 +85,7 @@ export default class SearchView extends React.Component {
                 
                     
                         <div className="text-center">
-                            <h2>Lucid-Law</h2>
+                            <h2 style={{marginTop: 70}}>Lucid-Law</h2>
                             
 
                             <SearchBar

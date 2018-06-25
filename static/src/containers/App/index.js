@@ -13,7 +13,8 @@ import './styles/app.scss';
 
 const theme = createMuiTheme({
     palette: {
-        type: 'dark'
+        
+        color: 'green'
     }
 });
 
@@ -26,7 +27,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         return (
             <MuiThemeProvider theme={theme}>
                 <section>
-                    <Header />
+                    <Header {...this.props}/>
                     <div
                       className="container"
                       style={{ marginTop: 10, paddingBottom: 250 }}
