@@ -163,10 +163,32 @@ def get_more():
     key_passed = ['tid','title', 'divtype','bench', 'source']
     for hit in hit_list:
         hit_dict = hit.to_dict()
+        if hit_dict["author"] == "":
+            hit_dict["author"] = "Author not available"
+        if hit_dict["bench"] == "":
+            hit_dict["bench"] = "Bench not available"
+        if not hit_dict["cited_links"]:
+            hit_dict["cited_links"] = ["No cited link available"]
+        if not hit_dict["cited_titles"]:
+            hit_dict["cited_titles"] = ["No cited title available"]
+        if hit_dict["content"] == "":
+            hit_dict["content"] = "Content not available"
+        if hit_dict["divtype"] == "":
+            hit_dict["divtype"] = "Type not available"
+        if hit_dict["doc"] == "":
+            hit_dict["doc"] = "Content not available"
+        if not hit_dict["keywords"]:
+            hit_dict["keywords"] = ["No keyword"]
+        if hit_dict["source"] == "":
+            hit_dict["source"] = "Source not available"
+        if hit_dict["summary"] == "":
+            hit_dict["summary"] = "Summary not available"
+        if hit_dict["title"] == "":
+            hit_dict["title"] = "Title not available"
         doc_dict = {key: hit_dict[key] for key in key_passed}
         doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
         doc_list.append(doc_dict)
-        hit_dict_list.append(hit_dict)
+        hit_dict_list[str(hit_dict['tid'])]= hit_dict
 
     print "Computed DocList"
 
