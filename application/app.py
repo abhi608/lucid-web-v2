@@ -11,7 +11,7 @@ n_hits, query, doc_list = 0, '', []
 search_size = 10 
 loogal = Loogal(search_size)
 active_filter = {}
-hit_dict_list = []
+hit_dict_list = {} 
 doc_list = []
 headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
 
@@ -39,7 +39,7 @@ def search():
     global query
     global active_filter
     active_filter = {}
-    hit_dict_list = []
+    hit_dict_list = {} 
     id = -1
     global search_size
     if request.method == 'GET':
@@ -76,40 +76,9 @@ def search():
             doc_dict = {key: hit_dict[key] for key in key_passed}
 	    doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
             doc_list.append(doc_dict)
-            hit_dict_list.append(hit_dict)
+            hit_dict_list[hit_dict['tid']]= hit_dict
         print "Computed DocList"
-        print len(hit_dict_list)
-
-        if id==-1:
-            doc_display = hit_dict_list[0]
-        else:
-            doc_display = [d for d in hit_dict_list if
-                           int(d['tid'])==int(id)]
-            print len(doc_display)
-        if not doc_display:
-            case = loogal.fetch_document(id).to_dict()
-            if(len(case['hits']['hits']))!=0 :
-                hit_dict_list.append(case['hits']['hits'][0]['_source'])
-                doc_display = doc
-            else:
-                doc_display = hit_dict_list[0]
-        elif len(doc_display)==1:
-            doc_display = doc_display[0]
-        headers = {
-        'content-type': 'application/json',
-        }
-
-        doc_content = json.dumps(doc_display['doc'])
-        queryjson = json.dumps(query)
-
-        data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
-
-        start = time.time()
-        # response = requests.post(
-        #     'http://35.226.191.60:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data)
-        # print "summary_time = "+ str(time.time()-start)
-        # query_summary = json.loads(response.text)['summary']
-        query_summary = "no summary"
+        print len(hit_dict_list.keys())
 	search_results = {
             "n_hits": n_hits,
             "query": query,
