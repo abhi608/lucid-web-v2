@@ -8,7 +8,7 @@ from forms import search as search_forms
 import time, json
 
 n_hits, query, doc_list = 0, '', []
-search_size = 25
+search_size = 10 
 loogal = Loogal(search_size)
 active_filter = {}
 hit_dict_list = []
@@ -69,15 +69,12 @@ def search():
         s, hits_end, hit_list = loogal.get_next_set_of_results()
         print "getting results time", time.time()-start
         # form_display = (n_hits,query,doc_list)
-        search_results = {
-            "n_hits": n_hits,
-            "query": query,
-            "doc_list": doc_list
-        }
-        key_passed = ['tid','title']
+        
+        key_passed = ['tid','title', 'divtype','bench', 'source']
         for hit in hit_list:
             hit_dict = hit.to_dict()
             doc_dict = {key: hit_dict[key] for key in key_passed}
+	    doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
             doc_list.append(doc_dict)
             hit_dict_list.append(hit_dict)
         print "Computed DocList"
@@ -113,6 +110,11 @@ def search():
         # print "summary_time = "+ str(time.time()-start)
         # query_summary = json.loads(response.text)['summary']
         query_summary = "no summary"
+	search_results = {
+            "n_hits": n_hits,
+            "query": query,
+            "doc_list": doc_list
+        }
         print "REACHED END"
         print doc_display.keys()
         return jsonify(search_results = search_results,
@@ -164,3 +166,4 @@ def is_token_valid():
         return jsonify(token_is_valid=True)
     else:
         return jsonify(token_is_valid=False), 403
+

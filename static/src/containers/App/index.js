@@ -13,8 +13,7 @@ import './styles/app.scss';
 
 const theme = createMuiTheme({
     palette: {
-        
-        color: 'green'
+        type: 'light'
     }
 });
 
