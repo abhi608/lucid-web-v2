@@ -11,6 +11,7 @@ import { validateEmail } from '../utils/misc';
 
 import SearchViewResults from './SearchViewResults';
 import CaseCard from './CaseCard' 
+import IconLabelButton from './IconLabelButton'
 
 function mapStateToProps(state) {
     return {
@@ -38,14 +39,18 @@ export default class ResultsView extends React.Component {
     render(){
 	const docs = this.state.search_results.doc_list;
     	return(
-
-    		<div className="col-md-8 col-md-offset-2 "> 
+	<div className="col-md-8 col-md-offset-2">
+    	     <div  id="docCardList"> 
             {console.log("Casecard: ", CaseCard)}
 		     {docs.map(function(d, idx){
 			 return (<CaseCard title={d.title} tid={d.tid} key={d.tid} 
 				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
 		       })}
-            </div>
+              </div>
+	      <div  style={{alignItems:'center', display:'flex', justifyContent:'center'}}>
+		      <IconLabelButton id="refresh"/>	
+	      </div>
+	</div>
         );
 
     }
