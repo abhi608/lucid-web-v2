@@ -11,3 +11,5 @@ tmp
 static/dist
 .vscode/
 migrations/
+static/false/
+static/package-lock.json

@@ -36,12 +36,14 @@ export default class ResultsView extends React.Component {
 
 
     render(){
-	const docs = this.state.search_results.doc_list;
+    const docs = this.state.search_results.doc_list;
+    const ResultsViewThis = this;
     	return(
 
-    		<div className="col-md-8 col-md-offset-2" style={{paddingTop: 60}}> 
+    		<div className="col-md-8 col-md-offset-2" style={{paddingTop: 60}}>
+            {console.log(this.props, "this.props")}
 		     {docs.map(function(d, idx){
-			 return (<CaseCard title={d.title} tid={d.tid} key={d.tid} 
+			 return (<CaseCard {...ResultsViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
 				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
 		       })}
             </div>

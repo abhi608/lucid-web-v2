@@ -7,7 +7,7 @@ from scripts.loogal import Loogal
 from forms import search as search_forms
 import time, json
 
-n_hits, query, doc_list = 0, '', []
+tid, n_hits, query, doc_list = '', 0, '', []
 search_size = 10 
 loogal = Loogal(search_size)
 active_filter = {}
@@ -30,6 +30,38 @@ def any_root_path(path):
 def get_user():
     return jsonify(result=g.current_user)
 
+@app.route("/api/fetchdoc", methods=["GET"])
+def doc_load():
+    global hit_dict_list
+    global tid
+    if request.args.get("tid"):
+        tid = str(request.args.get("tid"))
+    print tid
+    try:
+        assert tid != -1
+    except:
+        raise ValueError()
+    print "keys for hit_dict_list: ", hit_dict_list.keys()
+    response_doc = hit_dict_list[tid]
+    headers = {
+        'content-type': 'application/json',
+    }
+
+    doc_content = json.dumps(response_doc['doc'])
+    queryjson = json.dumps(query)
+
+    data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
+
+    # start = time.time()
+    # response = requests.post(
+    #     'http://35.226.191.60:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data)
+    # print "summary_time = "+ str(time.time()-start)
+    # response_doc['query_summary'] = json.loads(response.text)['summary']
+    response_doc['query_summary'] = "Summary goes here"
+
+    print response_doc.keys()
+    return jsonify(response_doc = response_doc)
+
 @app.route("/api/search", methods=["GET"])
 def search():
     global loogal
@@ -42,55 +74,75 @@ def search():
     hit_dict_list = {} 
     id = -1
     global search_size
-    if request.method == 'GET':
-        if request.args.getlist('docDrop'):
-            active_filter['divtype'] = request.args.getlist('docDrop')
-        if request.args.getlist('sourceDrop'):
-            active_filter['docsource']= request.args.getlist('sourceDrop')
-        if request.args.get('startYear'):
-            active_filter['start'] = request.args.get('startYear')
-        if request.args.get('endYear'):
-            active_filter['end'] = request.args.get('endYear')
-        if request.args.get('search_phrase'):
-            print request.args.get('search_phrase')
-            query = request.args.get('search_phrase')
-        if request.args.get('page'):
-            print request.args.get('page')
-            page = request.args.get('page')
+    if request.args.getlist('docDrop'):
+        active_filter['divtype'] = request.args.getlist('docDrop')
+    if request.args.getlist('sourceDrop'):
+        active_filter['docsource']= request.args.getlist('sourceDrop')
+    if request.args.get('startYear'):
+        active_filter['start'] = request.args.get('startYear')
+    if request.args.get('endYear'):
+        active_filter['end'] = request.args.get('endYear')
+    if request.args.get('search_phrase'):
+        print request.args.get('search_phrase')
+        query = request.args.get('search_phrase')
+    if request.args.get('page'):
+        print request.args.get('page')
+        page = request.args.get('page')
 
 
-        print "Active", active_filter
-        start = time.time()
-        print "querying time"
-        s, n_hits = loogal.find_keyword(query, active_filter)
-        print time.time()-start
-        start = time.time()
-        # code to get the first set of search results
-        s, hits_end, hit_list = loogal.get_next_set_of_results()
-        print "getting results time", time.time()-start
-        # form_display = (n_hits,query,doc_list)
-        
-        key_passed = ['tid','title', 'divtype','bench', 'source']
-        for hit in hit_list:
-            hit_dict = hit.to_dict()
-            doc_dict = {key: hit_dict[key] for key in key_passed}
-	    doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
-            doc_list.append(doc_dict)
-            hit_dict_list[hit_dict['tid']]= hit_dict
-        print "Computed DocList"
-        print len(hit_dict_list.keys())
-	search_results = {
-            "n_hits": n_hits,
-            "query": query,
-            "doc_list": doc_list
-        }
-        print "REACHED END"
-        print doc_display.keys()
-        return jsonify(search_results = search_results,
-                        search_size = search_size,
-                        active_filter = active_filter,
-                        query = query)
-    return jsonify(result="ERR")
+    print "Active", active_filter
+    start = time.time()
+    print "querying time"
+    s, n_hits = loogal.find_keyword(query, active_filter)
+    print time.time()-start
+    start = time.time()
+    # code to get the first set of search results
+    s, hits_end, hit_list = loogal.get_next_set_of_results()
+    print "getting results time", time.time()-start
+    # form_display = (n_hits,query,doc_list)
+    
+    key_passed = ['tid','title', 'divtype','bench', 'source']
+    for hit in hit_list:
+        hit_dict = hit.to_dict()
+        if hit_dict["author"] == "":
+            hit_dict["author"] = "Author not available"
+        if hit_dict["bench"] == "":
+            hit_dict["bench"] = "Bench not available"
+        if not hit_dict["cited_links"]:
+            hit_dict["cited_links"] = ["No cited link available"]
+        if not hit_dict["cited_titles"]:
+            hit_dict["cited_titles"] = ["No cited title available"]
+        if hit_dict["content"] == "":
+            hit_dict["content"] = "Content not available"
+        if hit_dict["divtype"] == "":
+            hit_dict["divtype"] = "Type not available"
+        if hit_dict["doc"] == "":
+            hit_dict["doc"] = "Content not available"
+        if not hit_dict["keywords"]:
+            hit_dict["keywords"] = ["No keyword"]
+        if hit_dict["source"] == "":
+            hit_dict["source"] = "Source not available"
+        if hit_dict["summary"] == "":
+            hit_dict["summary"] = "Summary not available"
+        if hit_dict["title"] == "":
+            hit_dict["title"] = "Title not available"
+        doc_dict = {key: hit_dict[key] for key in key_passed}
+        doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
+        doc_list.append(doc_dict)
+        hit_dict_list[str(hit_dict['tid'])]= hit_dict
+        # print hit_dict['author'], hit_dict['bench']
+    print "Computed DocList"
+    print hit_dict_list.keys()
+    search_results = {
+        "n_hits": n_hits,
+        "query": query,
+        "doc_list": doc_list
+    }
+    print "REACHED END"
+    return jsonify(search_results = search_results,
+                    search_size = search_size,
+                    active_filter = active_filter,
+                    query = query)
 
 
 

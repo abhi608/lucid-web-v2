@@ -29,6 +29,8 @@
   "author": "https://github.com/anorudes, https://github.com/keske",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^1.2.3",
+    "@material-ui/icons": "^1.1.0",
     "autoprefixer": "6.5.3",
     "axios": "^0.15.3",
     "babel-core": "^6.4.5",
@@ -75,11 +77,13 @@
     "less": "^2.5.3",
     "less-loader": "^2.2.2",
     "lodash": "^4.5.1",
+    "material-ui-search-bar": "1.0.0-beta.7",
     "mocha": "^3.0.2",
     "morgan": "^1.6.1",
     "node-sass": "^3.4.2",
     "postcss-import": "^9.0.0",
     "postcss-loader": "^1.1.1",
+    "prop-types": "^15.6.2",
     "q": "^1.4.1",
     "qs": "^6.1.0",
     "rc-datepicker": "^4.0.1",
@@ -113,11 +117,7 @@
     "webpack-dev-server": "^1.14.1",
     "webpack-hot-middleware": "^2.6.0",
     "webpack-merge": "^1.0.2",
-    "yargs": "^6.5.0",
-    "material-ui-search-bar": "1.0.0-beta.7",
-    "@material-ui/core": "^1.2.3",
-    "prop-types": "^15.6.2",
-    "@material-ui/icons": "^1.1.0"
+    "yargs": "^6.5.0"
   },
   "devDependencies": {}
 }

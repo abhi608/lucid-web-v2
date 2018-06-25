@@ -68,6 +68,7 @@ export default class CaseCard extends React.Component {
 			method: "GET",
 		}).then((resp) => resp.json()).
 		then(function(data){
+			console.log("data: ", data);
 			parentThis.props.router.push({
 				pathname: '/doc',
 				search: "?tid="+tid,
