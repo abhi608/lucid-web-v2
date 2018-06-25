@@ -8,6 +8,7 @@ from forms import search as search_forms
 import time, json
 
 n_hits, query, doc_list = 0, '', []
+is_end = False 
 search_size = 10 
 loogal = Loogal(search_size)
 active_filter = {}
@@ -34,6 +35,7 @@ def get_user():
 def search():
     global loogal
     global doc_list
+    global is_end
     doc_list = []
     global hit_dict_list
     global query
@@ -42,6 +44,7 @@ def search():
     hit_dict_list = []
     id = -1
     global search_size
+    is_end = False
     if request.method == 'GET':
         if request.args.getlist('docDrop'):
             active_filter['divtype'] = request.args.getlist('docDrop')
@@ -54,10 +57,6 @@ def search():
         if request.args.get('search_phrase'):
             print request.args.get('search_phrase')
             query = request.args.get('search_phrase')
-        if request.args.get('page'):
-            print request.args.get('page')
-            page = request.args.get('page')
-
 
         print "Active", active_filter
         start = time.time()
@@ -80,50 +79,47 @@ def search():
         print "Computed DocList"
         print len(hit_dict_list)
 
-        if id==-1:
-            doc_display = hit_dict_list[0]
-        else:
-            doc_display = [d for d in hit_dict_list if
-                           int(d['tid'])==int(id)]
-            print len(doc_display)
-        if not doc_display:
-            case = loogal.fetch_document(id).to_dict()
-            if(len(case['hits']['hits']))!=0 :
-                hit_dict_list.append(case['hits']['hits'][0]['_source'])
-                doc_display = doc
-            else:
-                doc_display = hit_dict_list[0]
-        elif len(doc_display)==1:
-            doc_display = doc_display[0]
-        headers = {
-        'content-type': 'application/json',
-        }
-
-        doc_content = json.dumps(doc_display['doc'])
-        queryjson = json.dumps(query)
-
-        data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
-
-        start = time.time()
-        # response = requests.post(
-        #     'http://35.226.191.60:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data)
-        # print "summary_time = "+ str(time.time()-start)
-        # query_summary = json.loads(response.text)['summary']
-        query_summary = "no summary"
+	if len(doc_list) < search_size:
+	    is_end = True 
+           
 	search_results = {
             "n_hits": n_hits,
             "query": query,
             "doc_list": doc_list
         }
-        print "REACHED END"
-        print doc_display.keys()
+        print ("REACHED END",is_end)
+
         return jsonify(search_results = search_results,
                         search_size = search_size,
                         active_filter = active_filter,
-                        query = query)
+                        query = query,
+			is_end = is_end)
     return jsonify(result="ERR")
 
+@app.route("/api/get_more", methods=["GET"])
+def get_more():
+    global is_end
+    global loogal
+    print loogal.start
+    print loogal.query
+    global hit_dict_list
+    s, hits_end, hit_list = loogal.get_next_set_of_results()
+    doc_list = []
 
+    key_passed = ['tid','title', 'divtype','bench', 'source']
+    for hit in hit_list:
+        hit_dict = hit.to_dict()
+        doc_dict = {key: hit_dict[key] for key in key_passed}
+        doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
+        doc_list.append(doc_dict)
+        hit_dict_list.append(hit_dict)
+
+    print "Computed DocList"
+
+    if len(doc_list) < search_size:
+        is_end = True 
+ 
+    return jsonify(doc_list=doc_list, is_end=is_end)
 
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
