@@ -4,10 +4,10 @@
   "description": "",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "webpack --progress --verbose --colors --display-error-details --config webpack/common.config.js",
-    "build:production": "npm run clean && npm run build",
+    "build": "webpack -p --progress --verbose --colors --display-error-details --config webpack/common.config.js --bail",
+    "build:production": "NODE_ENV=production npm run clean && npm run build",
     "lint": "eslint src",
-    "start": "node bin/server.js",
+    "start": "NODE_ENV=development node bin/server.js",
     "test": "karma start"
   },
   "repository": {
@@ -28,7 +28,7 @@
   ],
   "author": "https://github.com/anorudes, https://github.com/keske",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "autoprefixer": "6.5.3",
     "axios": "^0.15.3",
     "babel-core": "^6.4.5",
@@ -115,11 +115,10 @@
     "webpack-hot-middleware": "^2.6.0",
     "webpack-merge": "^1.0.2",
     "yargs": "^6.5.0",
-    "material-ui-search-bar": "1.0.0-beta.7"
-  },
-  "dependencies": {
+    "material-ui-search-bar": "1.0.0-beta.7",
     "@material-ui/core": "^1.2.3",
     "prop-types": "^15.6.2",
     "@material-ui/icons": "^1.1.0"
-  }
+  },
+  "devDependencies": {}
 }
