@@ -7,9 +7,9 @@ import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
 import PropTypes from 'prop-types';
-import Card,{CardContent, CardActions, CardHeader} from 'material-ui/Card';
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
+import Card,{CardContent, CardActions, CardHeader} from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 const styles = {
   card: {

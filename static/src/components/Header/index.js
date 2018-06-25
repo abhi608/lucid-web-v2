@@ -3,12 +3,12 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from 'material-ui/Toolbar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from "@material-ui/core/Typography";
 // import Button from "@material-ui/core/Button";
-import LeftNav from 'material-ui/Drawer';
-import Button from 'material-ui/Button';
-import Divider from 'material-ui/Divider';
+import LeftNav from '@material-ui/core/Drawer';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';

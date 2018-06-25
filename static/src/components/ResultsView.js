@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import {Switch, Redirect} from 'react-router';
 
 import SearchBar from 'material-ui-search-bar';
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
 
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
 import SearchViewResults from './SearchViewResults';
-import CaseCard from './CaseCard' 
+import {CaseCard} from './CaseCard' 
 
 function mapStateToProps(state) {
     return {
