@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import {Switch, Redirect} from 'react-router';
 
 import SearchBar from 'material-ui-search-bar';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
 import SearchViewResults from './SearchViewResults';
-import {CaseCard} from './CaseCard' 
+import CaseCard from './CaseCard' 
 
 function mapStateToProps(state) {
     return {
@@ -40,6 +40,7 @@ export default class ResultsView extends React.Component {
     	return(
 
     		<div className="col-md-8 col-md-offset-2 "> 
+            {console.log("Casecard: ", CaseCard)}
 		     {docs.map(function(d, idx){
 			 return (<CaseCard title={d.title} tid={d.tid} key={d.tid} 
 				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
