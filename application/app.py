@@ -8,6 +8,7 @@ from forms import search as search_forms
 import time, json
 
 tid, n_hits, query, doc_list = '', 0, '', []
+is_end = False
 search_size = 10 
 loogal = Loogal(search_size)
 active_filter = {}
@@ -66,6 +67,7 @@ def doc_load():
 def search():
     global loogal
     global doc_list
+    global is_end
     doc_list = []
     global hit_dict_list
     global query
@@ -74,6 +76,7 @@ def search():
     hit_dict_list = {} 
     id = -1
     global search_size
+    is_end = False
     if request.args.getlist('docDrop'):
         active_filter['divtype'] = request.args.getlist('docDrop')
     if request.args.getlist('sourceDrop'):
@@ -133,6 +136,8 @@ def search():
         # print hit_dict['author'], hit_dict['bench']
     print "Computed DocList"
     print hit_dict_list.keys()
+    if len(doc_list) < search_size:
+	    is_end = True
     search_results = {
         "n_hits": n_hits,
         "query": query,
@@ -140,11 +145,35 @@ def search():
     }
     print "REACHED END"
     return jsonify(search_results = search_results,
-                    search_size = search_size,
-                    active_filter = active_filter,
-                    query = query)
+                        search_size = search_size,
+                        active_filter = active_filter,
+                        query = query,
+			            is_end = is_end)
 
+@app.route("/api/get_more", methods=["GET"])
+def get_more():
+    global is_end
+    global loogal
+    print loogal.start
+    print loogal.query
+    global hit_dict_list
+    s, hits_end, hit_list = loogal.get_next_set_of_results()
+    doc_list = []
 
+    key_passed = ['tid','title', 'divtype','bench', 'source']
+    for hit in hit_list:
+        hit_dict = hit.to_dict()
+        doc_dict = {key: hit_dict[key] for key in key_passed}
+        doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
+        doc_list.append(doc_dict)
+        hit_dict_list.append(hit_dict)
+
+    print "Computed DocList"
+
+    if len(doc_list) < search_size:
+        is_end = True 
+ 
+    return jsonify(doc_list=doc_list, is_end=is_end)
 
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
