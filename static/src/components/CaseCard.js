@@ -78,6 +78,7 @@ export default class CaseCard extends React.Component {
 	}
 
     render(){
+		const highlights = this.props.highlights;
 	console.log("card",this.state)
 	return (
 	<div style={{paddingBottom: "1.5em"}}>
@@ -92,9 +93,9 @@ export default class CaseCard extends React.Component {
   	            <Typography style={styles.pos} color="textSecondary">
     	                {this.props.bench},{this.props.source}
   	            </Typography>
-  	            <Typography component="p">
-    	               {this.props.highlights} 
-  	            </Typography>
+				{highlights.map(function(d, idx){
+					return (<Typography component="p">...{d}...</Typography>)
+				})}
 	        </CardContent>
 	        <CardActions>
   	            <Button size="small" onClick={this.showDocument}>View More</Button>

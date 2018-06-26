@@ -68,18 +68,16 @@ class Esearch():
             s = s.filter('range',publishdate={'lte':end_year})
         # the search object. -p indicates sort by order=desc on p
         # --------------------------------------query-------------------------------------------------------
-        q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "doc"], type="best_fields", cutoff_frequency=0.0007,
+        q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="best_fields", cutoff_frequency=0.0007,
             operator="and", fuzziness="AUTO")
-        q2 = Q("multi_match", query=keyword, fields=["title", "keywords", "doc"], type="phrase")
+        q2 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="phrase")
         q3 = Q("bool", must=[q1], should=[q2])
         s = s.query(q3)
 
         s = s.suggest("didYouMean", keyword, phrase={'field': 'did_you_mean'})
 
-        s = s.highlight_options(order="score", pre_tags=["<mark>"], post_tags=["</mark>"], fragment_size=80, no_match_size=0)
-        s = s.highlight('title', number_of_fragments=0)
-        s = s.highlight('keywords', number_of_fragments=10)
-        s = s.highlight('doc', number_of_fragments=10)
+        s = s.highlight_options(order="score", fragment_size=80, no_match_size=0)
+        s = s.highlight('content', number_of_fragments=3)
         # ---------------------------------------------------------------------------------------------------
         n_hits = s.count()
         print "hits = ", n_hits
