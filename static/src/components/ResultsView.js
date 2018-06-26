@@ -58,7 +58,7 @@ export default class ResultsView extends React.Component {
         const docs = this.state.search_results.doc_list;
         const n_hits = this.state.search_results.n_hits;
     	return(
-	<div className="col-md-8 col-md-offset-2">
+	<div className="col-md-8 col-md-offset-2" style={{marginTop: 60}}>
 	    <p>{n_hits} results found</p>
     	    <div  id="docCardList"> 
             {console.log("Casecard: ", CaseCard)}
