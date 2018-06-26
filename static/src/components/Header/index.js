@@ -9,10 +9,16 @@ import Typography from "@material-ui/core/Typography";
 import LeftNav from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';
 import SearchViewResults from '../SearchViewResults';
+import Filter from '../Filter';
 
 function mapStateToProps(state) {
     return {
@@ -32,8 +38,10 @@ export class Header extends Component {
         super(props);
         this.state = {
             open: false,
+            isFilterOpen: false,
         };
-
+        this.openFilter = this.openFilter.bind(this);
+        this.closeFilter = this.closeFilter.bind(this);
     }
 
     dispatchNewRoute(route) {
@@ -66,6 +74,14 @@ export class Header extends Component {
         });
     }
 
+    openFilter(){
+        this.setState({isFilterOpen: true});
+    }
+
+    closeFilter(){
+        this.setState({isFilterOpen: false});
+    }
+
     render() {
         return (
             <header>
@@ -80,9 +96,25 @@ export class Header extends Component {
                                 console.log("not /results")
                             }
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
-                            }                           
+                            }
+                            <div>
+                            <Dialog
+                             className="col-md-12 col-md-offset-0" 
+                            open={this.state.isFilterOpen}
+                            onClose={this.closeFilter}
+                            aria-labelledby="form-dialog-title">
+                                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        To subscribe to this website, please enter your email address here. We will send
+                                        updates occasionally.
+                                    </DialogContentText>
+                                    <Filter {...this.props}/>
+                                </DialogContent>
+                            </Dialog>
+                            </div>                         
                             <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
                         </Toolbar>
                     </AppBar>
