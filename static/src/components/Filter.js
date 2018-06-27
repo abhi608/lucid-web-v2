@@ -232,6 +232,10 @@ class Filter extends React.Component {
     single: null,
     multi: null,
     author: null,
+    bench: null,
+    divtype: null,
+    source: null,
+    filter_data: {}
   };
 
   handleChange = name => value => {
@@ -241,12 +245,15 @@ class Filter extends React.Component {
   };
 
   componentWillMount() {
+    var parentThis = this;
     console.log("willmount");
     fetch("/api/getFilterData", {
       method: "GET",
     }).then((resp) => resp.json()).
       then(function(data){
-        console.log("filterData: ", filterData)
+        console.log("filterData: ", data);
+        parentThis.setState({filter_data: data.filter_data});
+        console.log("thisState: ", parentThis.state.filter_data);
       });
   }
 
@@ -273,7 +280,30 @@ class Filter extends React.Component {
               instanceId: 'react-select-chip-label',
               id: 'react-select-chip-label',
               simpleValue: true,
-              options: suggestions,
+              options: this.state.filter_data.author,
+            },
+          }}
+        />
+
+        <TextField
+          fullWidth
+          value={this.state.bench}
+          onChange={this.handleChange('bench')}
+          placeholder="Select bench member"
+          name="react-select-chip-label"
+          label="Bench"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            inputComponent: SelectWrapped,
+            inputProps: {
+              classes,
+              multi: true,
+              instanceId: 'react-select-chip-label',
+              id: 'react-select-chip-label',
+              simpleValue: true,
+              options: this.state.filter_data.author,
             },
           }}
         />

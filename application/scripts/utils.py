@@ -1,5 +1,5 @@
 from elasticsearch import Elasticsearch
-from elasticsearch_dsl import Search, Q
+from elasticsearch_dsl import Search, Q, A
 from pprint import pprint
 import os, base64, re, logging
 import certifi
@@ -78,6 +78,16 @@ class Esearch():
 
         s = s.highlight_options(order="score", fragment_size=80, no_match_size=0)
         s = s.highlight('content', number_of_fragments=3)
+
+        a1 = A('terms', field='author.keyword', size=500)
+        a2 = A('terms', field='bench.keyword', size=500)
+        a3 = A('terms', field='divtype.keyword', size=500)
+        a4 = A('terms', field='source.keyword', size=500)
+        s.aggs.bucket('distinct_author', a1)
+        s.aggs.bucket('distinct_bench', a2)
+        s.aggs.bucket('distinct_divtype', a3)
+        s.aggs.bucket('distinct_source', a4)
+        print s.to_dict()
         # ---------------------------------------------------------------------------------------------------
         n_hits = s.count()
         print "hits = ", n_hits

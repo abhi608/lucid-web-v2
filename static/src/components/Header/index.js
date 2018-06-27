@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';
 import SearchViewResults from '../SearchViewResults';
-import Filter from '../Filter';
+import Filter from '../FilterNew';
 
 function mapStateToProps(state) {
     return {

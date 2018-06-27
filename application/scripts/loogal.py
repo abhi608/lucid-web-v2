@@ -26,13 +26,13 @@ class Loogal():
         hit_list = []
         hits_end = min(hits_start + self.search_size, self.n_hits)
         s_short = self.s[hits_start:hits_end]
-        s_short.execute()
+        res = s_short.execute()
         hit_ids = []
         for hit in s_short:
             hit_ids.append(hit['tid'])
             hit_list.append(hit)
         self.start += self.search_size
-        return self.s, hits_end, hit_list
+        return self.s, hits_end, hit_list, res.aggregations
 
 
     def fetch_document(self, key):

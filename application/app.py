@@ -7,6 +7,7 @@ from scripts.loogal import Loogal
 from forms import search as search_forms
 import time, json
 
+aggregations = None
 tid, n_hits, query, doc_list = '', 0, '', []
 is_end = False
 search_size = 10 
@@ -18,6 +19,7 @@ headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
 def parseHitList(hit_list):
     key_passed = ['tid','title', 'divtype','bench', 'source', 'highlights']
     doc_list = []
+    # print "aggr: ", hit_list.aggregations
     for hit in hit_list:
         hit_dict = hit.to_dict()
         hit_dict["highlights"] = []
@@ -68,6 +70,22 @@ def any_root_path(path):
 def get_user():
     return jsonify(result=g.current_user)
 
+@app.route("/api/getFilterData", methods=["GET"])
+def filter_load():
+    global aggregations
+    distinct_author = [term.key for term in aggregations.distinct_author.buckets]
+    distinct_bench = [term.key for term in aggregations.distinct_bench.buckets]
+    distinct_divtype = [term.key for term in aggregations.distinct_divtype.buckets]
+    distinct_source = [term.key for term in aggregations.distinct_source.buckets]
+    # print distinct_author, distinct_bench, distinct_divtype, distinct_source
+    filter_data = {
+        'author': distinct_author,
+        'bench': distinct_bench,
+        'divtype': distinct_divtype,
+        'source': distinct_source
+    }
+    return jsonify(filter_data = filter_data)
+
 @app.route("/api/fetchdoc", methods=["GET"])
 def doc_load():
     global hit_dict_list
@@ -107,6 +125,7 @@ def search():
     global hit_dict_list
     global query
     global active_filter
+    global aggregations
     active_filter = {}
     hit_dict_list = {} 
     id = -1
@@ -135,7 +154,7 @@ def search():
     print time.time()-start
     start = time.time()
     # code to get the first set of search results
-    s, hits_end, hit_list = loogal.get_next_set_of_results()
+    s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
     print "getting results time", time.time()-start
     
     doc_list = parseHitList(hit_list)
@@ -160,10 +179,11 @@ def search():
 def get_more():
     global is_end
     global loogal
+    global aggregations
     print loogal.start
     print loogal.query
     global hit_dict_list
-    s, hits_end, hit_list = loogal.get_next_set_of_results()
+    s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
 
     doc_list = parseHitList(hit_list)
 
