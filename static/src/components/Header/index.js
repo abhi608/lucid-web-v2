@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from '@material-ui/core/AppBar';
@@ -39,9 +40,12 @@ export class Header extends Component {
         this.state = {
             open: false,
             isFilterOpen: false,
+            redirect: false,
         };
         this.openFilter = this.openFilter.bind(this);
         this.closeFilter = this.closeFilter.bind(this);
+        this.setRedirect = this.setRedirect.bind(this);
+        this.renderRedirect = this.renderRedirect.bind(this);
     }
 
     dispatchNewRoute(route) {
@@ -82,15 +86,27 @@ export class Header extends Component {
         this.setState({isFilterOpen: false});
     }
 
+    setRedirect(){
+        this.setState({redirect: true});
+    }
+
+    renderRedirect(){
+        if (this.state.redirect) {
+        this.setState({redirect: false});
+        window.location.assign('/home');
+    }
+    }
+
     render() {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
                     <AppBar position="fixed" style={{ height: 45, backgroundColor: '#18d36e' }}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
-                            <Typography variant="title" color="inherit" style={{flex: 1, fontSize: '15px',  marginLeft: 50, marginTop: -10}}>
+                            {this.renderRedirect()}
+                            <Button style={{color:"inherit", fontSize: '15px',  marginLeft: 50, marginTop: -10}} onClick={"this.setRedirect();"}>
                                 LUCID LAW
-                            </Typography>
+                            </Button>
                             {this.props.location.pathname == '/results' ?
                                 <SearchViewResults  {...this.props} openSearch={true}/> :
                                 console.log("not /results")
