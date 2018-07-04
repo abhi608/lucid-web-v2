@@ -86,7 +86,7 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="fixed" style={{ height: 45, backgroundColor: 'green' }}>
+                    <AppBar position="fixed" style={{ height: 45, backgroundColor: '#18d36e' }}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
                             <Typography variant="title" color="inherit" style={{flex: 1, fontSize: '15px',  marginLeft: 50, marginTop: -10}}>
                                 LUCID LAW
