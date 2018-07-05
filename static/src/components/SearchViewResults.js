@@ -89,8 +89,7 @@ export default class SearchViewResults extends React.Component {
                             onChange={this.changeValue}
                             onRequestSearch={this.requestSearch}
                             style={{
-                            maxWidth: 500,
-                            marginLeft: 70, marginTop: -10, height: 36, width: 400
+                            marginLeft: 300, marginTop: -10, height: 36, maxWidth: 400
                             }}
                         />
                             

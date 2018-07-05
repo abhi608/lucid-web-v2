@@ -6,7 +6,9 @@ import { bindActionCreators } from 'redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import LeftNav from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -86,6 +88,8 @@ export class Header extends Component {
 
     homeRedirect(){
         console.log("Redirecting home");
+        this.props.location.pathname == '/home' ?
+        console.log("Already home") :
         this.props.router.push(`/home`);
     }
 
@@ -93,9 +97,12 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="fixed" style={{ height: 45, backgroundColor: '#18d36e' }}>
+                    <AppBar position="static" style={{ height: 45, backgroundColor: '#18d36e' }}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
-                            <Button style={{color:"inherit", fontSize: '15px',  marginLeft: 50, marginTop: -10}} onClick={this.homeRedirect}>
+                            <IconButton style={{ marginTop: -10, justify: 'space-around'}} color="inherit" aria-label="Menu">
+                                <MenuIcon />
+                            </IconButton>
+                            <Button style={{color:"inherit", fontSize: '15px',  justify: 'space-around', marginTop: -10}} onClick={this.homeRedirect}>
                                 LUCID LAW
                             </Button>
                             {this.props.location.pathname != '/search' ?
@@ -103,15 +110,15 @@ export class Header extends Component {
                                 console.log("not /results")
                             }
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}} onClick={this.openFilter}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, justify: 'space-around'}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
                             }
                             <div>
                             <Dialog
-                             className="col-md-12 col-md-offset-0" 
-                            open={this.state.isFilterOpen}
-                            onClose={this.closeFilter}
-                            aria-labelledby="form-dialog-title">
+                                className="col-md-12 col-md-offset-0" 
+                                open={this.state.isFilterOpen}
+                                onClose={this.closeFilter}
+                                aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>
@@ -122,7 +129,7 @@ export class Header extends Component {
                                 </DialogContent>
                             </Dialog>
                             </div>                         
-                            <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
+                            <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, justify:'right'}}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>
