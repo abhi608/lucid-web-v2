@@ -18,7 +18,8 @@ import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../actions/auth';
 import SearchViewResults from '../SearchViewResults';
-import Filter from '../FilterNew';
+import Filter from '../FilterFinal';
+import PaperSheet from '../PaperSheet'
 
 function mapStateToProps(state) {
     return {
@@ -42,6 +43,7 @@ export class Header extends Component {
         };
         this.openFilter = this.openFilter.bind(this);
         this.closeFilter = this.closeFilter.bind(this);
+        // this.applyFilter = this.applyFilter.bind(this);
     }
 
     dispatchNewRoute(route) {
@@ -82,6 +84,12 @@ export class Header extends Component {
         this.setState({isFilterOpen: false});
     }
 
+    applyFilter = () => {
+        var parentThis = this;
+        this.child.applyFilter();
+        this.closeFilter();
+    }
+
     render() {
         return (
             <header>
@@ -100,19 +108,34 @@ export class Header extends Component {
                                 console.log("not /results")
                             }
                             <div>
+                            
+                            {/* {this.state.isFilterOpen ?
+                                <PaperSheet {...this.props}/> :
+                                console.log("no filter")
+                            } */}
+
+
                             <Dialog
-                             className="col-md-12 col-md-offset-0" 
+                            fullWidth
                             open={this.state.isFilterOpen}
                             onClose={this.closeFilter}
                             aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-                                <DialogContent>
-                                    <DialogContentText>
+                                <DialogContent style={{minHeight: 550}}>
+                                    {/* <DialogContentText>
                                         To subscribe to this website, please enter your email address here. We will send
-                                        updates occasionally.
-                                    </DialogContentText>
-                                    <Filter {...this.props}/>
+                                        updat   es occasionally.
+                                    </DialogContentText> */}
+                                    <Filter onRef={ref => (this.child = ref)} {...this.props}/>
                                 </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={this.closeFilter} color="primary">
+                                    Cancel
+                                    </Button>
+                                    <Button onClick={this.applyFilter} color="primary" autoFocus>
+                                    Apply
+                                    </Button>
+                                </DialogActions>
                             </Dialog>
                             </div>                         
                             <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>

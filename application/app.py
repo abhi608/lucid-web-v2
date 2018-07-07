@@ -28,10 +28,10 @@ def parseHitList(hit_list):
             if "content" in hit.meta.highlight:
                 hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
         
-        if hit_dict["author"] == "":
-            hit_dict["author"] = "Author not available"
-        if hit_dict["bench"] == "":
-            hit_dict["bench"] = "Bench not available"
+        if not hit_dict["author"]:
+            hit_dict["author"] = ["Author not available"]
+        if not hit_dict["bench"]:
+            hit_dict["bench"] = ["Bench not available"]
         if not hit_dict["cited_links"]:
             hit_dict["cited_links"] = ["No cited link available"]
         if not hit_dict["cited_titles"]:
@@ -115,7 +115,7 @@ def doc_load():
     # response_doc['query_summary'] = json.loads(response.text)['summary']
     response_doc['query_summary'] = "Summary goes here"
 
-    print response_doc.keys()
+    # print response_doc
     return jsonify(response_doc = response_doc)
 
 @app.route("/api/search", methods=["GET"])
@@ -131,20 +131,22 @@ def search():
     id = -1
     global search_size
     is_end = False
-    if request.args.getlist('docDrop'):
-        active_filter['divtype'] = request.args.getlist('docDrop')
-    if request.args.getlist('sourceDrop'):
-        active_filter['docsource']= request.args.getlist('sourceDrop')
-    if request.args.get('startYear'):
-        active_filter['start'] = request.args.get('startYear')
-    if request.args.get('endYear'):
-        active_filter['end'] = request.args.get('endYear')
     if request.args.get('search_phrase'):
         print request.args.get('search_phrase')
         query = request.args.get('search_phrase')
-    if request.args.get('page'):
-        print request.args.get('page')
-        page = request.args.get('page')
+    if request.args.get('author'):
+        print "Author:", request.args.get('author')
+        active_filter['author'] = request.args.get('author').split(',')
+    if request.args.get('bench'):
+        print "Bench:", request.args.get('bench')
+        active_filter['bench'] = request.args.get('bench').split(',')
+    if request.args.get('divtype'):
+        print "DivType:", request.args.get('divtype')
+        active_filter['divtype'] = request.args.get('divtype').split(',')
+    if request.args.get('source'):
+        print "Source:", request.args.get('source')
+        active_filter['source'] = request.args.get('source').split(',')
+        
 
 
     print "Active", active_filter

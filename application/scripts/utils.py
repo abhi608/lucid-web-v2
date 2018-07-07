@@ -35,37 +35,37 @@ class Esearch():
         '''
 
         s = Search(index='lucid').using(self.client)
-        print doc_filter
-        if 'divtype' in doc_filter:
-            for i,types in enumerate(doc_filter['divtype']):
-                if i==0:
-                    filt = Q("match",divtype=types)
-                else:
-                    filt = filt|Q("match",divtype=types)
-            s = s.filter(filt)
-        n_hits = s.count()
-        if 'docsource' in doc_filter:
-            for i,types in enumerate(doc_filter['docsource']):
-                if i==0:
-                    filt = Q("match",docsource=types)
-                else:
-                    filt = filt|Q("match",docsource=types)
-            s = s.filter(filt)
+        print "doc_filter: ", doc_filter
+        # if 'divtype' in doc_filter:
+        #     for i,types in enumerate(doc_filter['divtype']):
+        #         if i==0:
+        #             filt = Q("match",divtype=types)
+        #         else:
+        #             filt = filt|Q("match",divtype=types)
+        #     s = s.filter(filt)
+        # n_hits = s.count()
+        # if 'docsource' in doc_filter:
+        #     for i,types in enumerate(doc_filter['docsource']):
+        #         if i==0:
+        #             filt = Q("match",docsource=types)
+        #         else:
+        #             filt = filt|Q("match",docsource=types)
+        #     s = s.filter(filt)
 
-        flag = 0
-        if 'end' in doc_filter:
-            flag = 1
-            end_year = datetime.datetime(int(doc_filter['end']),12,31)
-        else:
-            end_year = datetime.datetime.now()
+        # flag = 0
+        # if 'end' in doc_filter:
+        #     flag = 1
+        #     end_year = datetime.datetime(int(doc_filter['end']),12,31)
+        # else:
+        #     end_year = datetime.datetime.now()
 
-        if 'start' in doc_filter:
-            flag = 0
-            start_year = datetime.datetime(int(doc_filter['start']),1,1)
-            s= s.filter('range',publishdate={'gte':start_year,'lte':end_year})
+        # if 'start' in doc_filter:
+        #     flag = 0
+        #     start_year = datetime.datetime(int(doc_filter['start']),1,1)
+        #     s= s.filter('range',publishdate={'gte':start_year,'lte':end_year})
 
-        if flag:
-            s = s.filter('range',publishdate={'lte':end_year})
+        # if flag:
+        #     s = s.filter('range',publishdate={'lte':end_year})
         # the search object. -p indicates sort by order=desc on p
         # --------------------------------------query-------------------------------------------------------
         q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="best_fields", cutoff_frequency=0.0007,
@@ -87,6 +87,38 @@ class Esearch():
         s.aggs.bucket('distinct_bench', a2)
         s.aggs.bucket('distinct_divtype', a3)
         s.aggs.bucket('distinct_source', a4)
+
+        if 'author' in doc_filter:
+            for i,item in enumerate(doc_filter['author']):
+                if i==0:
+                    filt = Q("match",author=item)
+                else:
+                    filt = filt|Q("match",author=item)
+            s = s.filter(filt)
+
+        if 'bench' in doc_filter:
+            for i,item in enumerate(doc_filter['bench']):
+                if i==0:
+                    filt = Q("match",bench=item)
+                else:
+                    filt = filt|Q("match",bench=item)
+            s = s.filter(filt)
+
+        if 'divtype' in doc_filter:
+            for i,item in enumerate(doc_filter['divtype']):
+                if i==0:
+                    filt = Q("match",divtype=item)
+                else:
+                    filt = filt|Q("match",divtype=item)
+            s = s.filter(filt)
+
+        if 'source' in doc_filter:
+            for i,item in enumerate(doc_filter['source']):
+                if i==0:
+                    filt = Q("match",source=item)
+                else:
+                    filt = filt|Q("match",source=item)
+            s = s.filter(filt)
         print s.to_dict()
         # ---------------------------------------------------------------------------------------------------
         n_hits = s.count()
