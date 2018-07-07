@@ -131,6 +131,7 @@ def search():
     id = -1
     global search_size
     is_end = False
+    is_filter = False
     if request.args.get('search_phrase'):
         print request.args.get('search_phrase')
         query = request.args.get('search_phrase')
@@ -146,6 +147,9 @@ def search():
     if request.args.get('source'):
         print "Source:", request.args.get('source')
         active_filter['source'] = request.args.get('source').split(',')
+    if request.args.get('is_filter'):
+        print "is_filter:", request.args.get('is_filter')
+        is_filter = request.args.get('is_filter')
         
 
 
@@ -156,7 +160,10 @@ def search():
     print time.time()-start
     start = time.time()
     # code to get the first set of search results
-    s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
+    if is_filter:
+        s, hits_end, hit_list, _ = loogal.get_next_set_of_results()
+    else:
+        s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
     print "getting results time", time.time()-start
     
     doc_list = parseHitList(hit_list)
@@ -181,11 +188,11 @@ def search():
 def get_more():
     global is_end
     global loogal
-    global aggregations
+    # global aggregations
     print loogal.start
     print loogal.query
     global hit_dict_list
-    s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
+    s, hits_end, hit_list, _ = loogal.get_next_set_of_results()
 
     doc_list = parseHitList(hit_list)
 

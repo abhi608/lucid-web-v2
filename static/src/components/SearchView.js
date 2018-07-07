@@ -64,16 +64,17 @@ export default class SearchView extends React.Component {
 
     	console.log(query)
         fetch("/api/search?"+query, {
-              method: "GET",
-            }).then((resp) => resp.json()).
-            then(function(data){
-                parentThis.props.router.push({
-                    pathname: '/results',
-                    search: "?"+query,
-                    state: {response: data}
-                });
-                }
-            );
+            method: "GET",
+        }).then((resp) => resp.json()).
+        then(function(data){
+            data['load_more'] = false;
+            parentThis.props.router.push({
+                pathname: '/results',
+                search: "?"+query,
+                state: {response: data}
+            });
+            }
+        );
             
     }
 

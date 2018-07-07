@@ -30,12 +30,23 @@ export default class ResultsView extends React.Component {
 
     constructor(props) {
     	super(props);
-	console.log("init state",this.props.location.state.response);
+		console.log("init state",this.props.location.state.response);
         this.state = this.props.location.state.response;	
-	console.log("Assigned state",this.state.search_results.doc_list)
-	this.loadMore = this.loadMore.bind(this);
+		console.log("Assigned state",this.state.search_results.doc_list)
+		this.loadMore = this.loadMore.bind(this);
+	}
 
-    }
+	// componentWillUpdate() {
+	// 	console.log("Will!", this.props.location.state.response);
+	// }
+
+	// componentDidUpdate() {
+	// 	console.log("Did!", this.props.location.state.response);
+	// 	if(JSON.stringify(this.state) != JSON.stringify(this.props.location.state.response)){
+	// 		this.setState(this.props.location.state.response);
+	// 	}
+	// 	// this.setState(this.props.location.state.response);
+	// }
 
     
     loadMore(e) {
@@ -45,7 +56,8 @@ export default class ResultsView extends React.Component {
 	    (resp) => resp.json()).then(
 		function(data){
 		    console.log(data);
-		    var newState = {}
+			var newState = {}
+			newState['load_more'] = true;
 		    newState['is_end'] = data.is_end;
 		    newState['search_results'] = {}
 		    newState.search_results['doc_list'] = parentThis.state.search_results.doc_list.concat(data.doc_list)
@@ -54,6 +66,14 @@ export default class ResultsView extends React.Component {
     } 
 
     render(){
+		if(JSON.stringify(this.state) != JSON.stringify(this.props.location.state.response) && !this.state.load_more){
+			console.log("TRUE", this.state, this.props.location.state.response, this.state.load_more);
+			this.setState(this.props.location.state.response);
+			
+		}
+		else{
+			this.state.load_more = false;
+		}
         const ResultsViewThis = this;
         const docs = this.state.search_results.doc_list;
         const n_hits = this.state.search_results.n_hits;

@@ -13,6 +13,8 @@ import Chip from '@material-ui/core/Chip';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import Button from '@material-ui/core/Button';
+import {browserHistory} from 'react-router';
+
 
 
 
@@ -259,14 +261,7 @@ class Filter extends React.Component {
     if(this.state.divtype) queryData['divtype'] = this.state.divtype;
     if(this.state.source) queryData['source'] = this.state.source;
     if(this.state.search_phrase) queryData['search_phrase'] = this.state.search_phrase;
-    // var queryData = {
-    //     author: this.state.author,
-    //     bench: this.state.bench,
-    //     divtype: this.state.divtype,
-    //     source: this.state.source,
-    //     search_phrase: this.state.search_phrase
-    // };
-    console.log("QueryData: ", queryData);
+    queryData['is_filter'] = true;
     var esc = encodeURIComponent;
     var query = Object.keys(queryData)
             .map(k => esc(k) + '=' + esc(queryData[k]))
@@ -279,6 +274,8 @@ class Filter extends React.Component {
     }).then((resp) => resp.json()).
     then(function(data){
         console.log("DATA: ", data, parentThis.props);
+        // browserHistory.push('/results?'+query);
+        data['load_more'] = false;
         parentThis.props.router.push({
             pathname: '/results',
             search: "?"+query,
