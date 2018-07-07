@@ -120,7 +120,7 @@ export class Header extends Component {
                             open={this.state.isFilterOpen}
                             onClose={this.closeFilter}
                             aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                                <DialogTitle id="form-dialog-title">Filters</DialogTitle>
                                 <DialogContent style={{minHeight: 550}}>
                                     {/* <DialogContentText>
                                         To subscribe to this website, please enter your email address here. We will send
