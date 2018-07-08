@@ -5,9 +5,12 @@ import {Switch, Redirect} from 'react-router';
 
 import SearchBar from 'material-ui-search-bar';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
+
+import Image from '../../img/about-bg.jpg';
 
 function mapStateToProps(state) {
     return {
@@ -21,13 +24,19 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const style = {
-    marginTop: 50,
-    paddingBottom: 50,
-    paddingTop: 25,
-    width: '100%',
-    textAlign: 'center',
-    display: 'inline-block',
+const styles = {
+    paperContainer: {
+        position: 'static',
+        marginTop: -110,
+        marginLeft: -110,
+        marginBottom: -230,
+        backgroundImage: `url(${Image})`,
+        height: '100%',
+        maxWidth: 'auto',
+        width: 1358,
+        opacity: 0.75,
+        brightness: 0.5
+    }
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -77,15 +86,12 @@ export default class SearchView extends React.Component {
             
     }
 
-
     render(){
     	return(
-    		<div className="col-md-6 col-md-offset-3">
-                
+    		<div className='backgroundImage' style={styles.paperContainer}>    
                     
-                        <div className="text-center">
-                            <h2 style={{marginTop: 70}}>Lucid-Law</h2>
-                            
+                        <div className="text-center" ref='backgroundImage' style={{position: 'relative', marginTop:'100'}}>
+                            <Typography variant="display3" style={{color: 'white'}}>Lucid-Law</Typography>
 
                             <SearchBar
                             	name="search_phrase"
@@ -97,8 +103,7 @@ export default class SearchView extends React.Component {
         						maxWidth: 800
       							}}
     						/>
-                            
-                            
+                                     
                         </div>
 
             </div>
