@@ -39,6 +39,7 @@ class Loogal():
         ''' Fetch document from database given key '''
         print "Getting doc ", key
         document = self.search.get_doc(key)
+        # print "DoC: ", document
         return document
 
 

@@ -98,7 +98,7 @@ export default class CaseCard extends React.Component {
 				})}
 	        </CardContent>
 	        <CardActions>
-  	            <Button size="small" onClick={this.showDocument}>View More</Button>
+  	            <Button  size="small" href={"/doc?tid="+this.props.tid.toString()}>View More</Button>
 	        </CardActions>
 	    </Card>
 	</div>

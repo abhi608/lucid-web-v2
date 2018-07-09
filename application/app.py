@@ -97,16 +97,25 @@ def doc_load():
         assert tid != -1
     except:
         raise ValueError()
-    print "keys for hit_dict_list: ", hit_dict_list.keys()
-    response_doc = hit_dict_list[tid]
-    headers = {
-        'content-type': 'application/json',
-    }
 
-    doc_content = json.dumps(response_doc['doc'])
-    queryjson = json.dumps(query)
+    response_doc = None
 
-    data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
+    try:
+        response_doc = hit_dict_list[tid]
+    except:
+        response_doc = loogal.fetch_document(tid).to_dict()
+    # resp = loogal.fetch_document(tid).to_dict()
+    # print resp
+    # print "keys for hit_dict_list: ", hit_dict_list.keys()
+    # response_doc = hit_dict_list[tid]
+    # headers = {
+    #     'content-type': 'application/json',
+    # }
+
+    # doc_content = json.dumps(response_doc['doc'])
+    # queryjson = json.dumps(query)
+
+    # data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
 
     # start = time.time()
     # response = requests.post(
@@ -114,6 +123,7 @@ def doc_load():
     # print "summary_time = "+ str(time.time()-start)
     # response_doc['query_summary'] = json.loads(response.text)['summary']
     response_doc['query_summary'] = "Summary goes here"
+    response_doc['request_completed'] = True 
 
     # print response_doc
     return jsonify(response_doc = response_doc)

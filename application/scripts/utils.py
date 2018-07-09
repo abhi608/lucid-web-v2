@@ -130,9 +130,10 @@ class Esearch():
         '''
         Function to search for a single document given its tid
         '''
-        s = Search().using(self.client).query("match", tid=str(key))
+        s = Search(index='lucid').using(self.client).query("match", tid=str(key))
+        # print s.to_dict()
         result = s.execute()
-        return result
+        return result[0]
 
 
 def test_search():
