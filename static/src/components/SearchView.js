@@ -27,18 +27,16 @@ function mapDispatchToProps(dispatch) {
 const styles = {
     paperContainer: {
         position: 'static',
-        marginTop: -110,
+        marginTop: -10,
         marginLeft: -115,
         marginBottom: -275,
         backgroundImage: `url(${Image})`,
-        // height: '100%',
-        // maxWidth: 'auto',
-        // width: 1358,
         flex: 1,
         width: '120%',
         height: '85.4%',
         resizeMode: 'contain',
-        opacity: 1.0
+        opacity: 1.0,
+        paddingTop: 100
     }
 };
 
@@ -91,10 +89,10 @@ export default class SearchView extends React.Component {
 
     render(){
     	return(
-    		<div className='backgroundImage' style={styles.paperContainer}>    
+    		<div style={styles.paperContainer}>    
                     
-                        <div className="text-center" ref='backgroundImage' style={{position: 'relative', marginTop:'100'}}>
-                            <Typography variant="display3" style={{color: 'white'}}>Lucid-Law</Typography>
+                        <div className="text-center">
+                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>Search Lucid-Law</Typography>
 
                             <SearchBar
                             	name="search_phrase"
@@ -103,7 +101,9 @@ export default class SearchView extends React.Component {
       							onRequestSearch={this.requestSearch}
       							style={{
         						margin: '0 auto',
-        						maxWidth: 800
+        						maxWidth: 600,
+                                width: 'auto',
+                                paddingLeft: 20
       							}}
     						/>
                                      

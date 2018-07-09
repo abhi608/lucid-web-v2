@@ -126,7 +126,7 @@ export class Header extends Component {
                                 </DialogContent>
                             </Dialog>
                             </div>                         
-                            <Button style={{flex: 1, align: 'right', color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
+                            <Button style={{align: 'right', color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>

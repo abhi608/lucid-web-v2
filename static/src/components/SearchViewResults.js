@@ -22,12 +22,10 @@ function mapDispatchToProps(dispatch) {
 
 
 const style = {
-    marginTop: 50,
-    paddingBottom: 50,
-    paddingTop: 25,
-    width: '100%',
-    textAlign: 'center',
-    display: 'inline-block',
+    marginLeft: 300,
+    marginTop: -10,
+    height: 36,
+    maxWidth: 400
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -88,9 +86,7 @@ export default class SearchViewResults extends React.Component {
                             value={this.state.search_phrase}
                             onChange={this.changeValue}
                             onRequestSearch={this.requestSearch}
-                            style={{
-                            marginLeft: 300, marginTop: -10, height: 36, maxWidth: 400
-                            }}
+                            style={style}
                         />
                             
                 </div>
