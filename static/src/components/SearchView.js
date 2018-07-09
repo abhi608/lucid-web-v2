@@ -28,14 +28,17 @@ const styles = {
     paperContainer: {
         position: 'static',
         marginTop: -110,
-        marginLeft: -110,
-        marginBottom: -230,
+        marginLeft: -115,
+        marginBottom: -275,
         backgroundImage: `url(${Image})`,
-        height: '100%',
-        maxWidth: 'auto',
-        width: 1358,
-        opacity: 0.75,
-        brightness: 0.5
+        // height: '100%',
+        // maxWidth: 'auto',
+        // width: 1358,
+        flex: 1,
+        width: '120%',
+        height: '85.4%',
+        resizeMode: 'contain',
+        opacity: 1.0
     }
 };
 
