@@ -35,6 +35,22 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
+const styles = {
+    homeButton: {
+        fontSize: '15px',
+        marginLeft: 25,
+        marginTop: -10,
+        marginRight: 20,
+        color: "inherit"
+    },
+    emptyText: {
+        flex: 1,
+        fontSize: '15px',
+        marginLeft: 25,
+        marginTop: -10
+    }
+}
+
 @connect(mapStateToProps, mapDispatchToProps)
 export class Header extends Component {
     constructor(props) {
@@ -97,17 +113,20 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="static" style={{ flex: 1, height: 45, backgroundColor: '#18d36e' }}>
+                    <AppBar position="static" style={{ height: 45, backgroundColor: '#18d36e' }}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
-                            <Button color="inherit" style={{ fontSize: '15px', marginLeft: 20, marginTop: -10}} onClick={this.homeRedirect}>
+                            <Button variant="title" style={styles.homeButton} onClick={this.homeRedirect} >
                                 LUCID LAW
                             </Button>
-                            {this.props.location.pathname == '/results' ?
+                            <Typography style={styles.emptyText} />
+
+                            {this.props.location.pathname != '/search' ?
                                 <SearchViewResults  {...this.props} openSearch={true}/> :
                                 console.log("not /results")
                             }
+
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}} onClick={this.openFilter}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
                             }
                             <div>
@@ -125,8 +144,10 @@ export class Header extends Component {
                                     <Filter {...this.props}/>
                                 </DialogContent>
                             </Dialog>
-                            </div>                         
-                            <Button style={{align: 'right', color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
+                            </div>
+
+                            <Typography style={styles.emptyText} />                      
+                            <Button style={styles.homeButton}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>

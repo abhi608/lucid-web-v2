@@ -37,6 +37,12 @@ const styles = {
         resizeMode: 'contain',
         opacity: 1.0,
         paddingTop: 100
+    },
+    searchBar: {
+        margin: '0 auto',
+        maxWidth: 600,
+        width: 'auto',
+        paddingLeft: 20
     }
 };
 
@@ -92,19 +98,16 @@ export default class SearchView extends React.Component {
     		<div style={styles.paperContainer}>    
                     
                         <div className="text-center">
-                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>Search Lucid-Law</Typography>
+                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>
+                                Search Lucid-Law
+                            </Typography>
 
                             <SearchBar
                             	name="search_phrase"
                             	value={this.state.search_phrase}
       							onChange={this.changeValue}
       							onRequestSearch={this.requestSearch}
-      							style={{
-        						margin: '0 auto',
-        						maxWidth: 600,
-                                width: 'auto',
-                                paddingLeft: 20
-      							}}
+      							style={styles.searchBar}
     						/>
                                      
                         </div>

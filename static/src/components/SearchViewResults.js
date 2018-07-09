@@ -22,10 +22,10 @@ function mapDispatchToProps(dispatch) {
 
 
 const style = {
-    marginLeft: 300,
     marginTop: -10,
     height: 36,
-    maxWidth: 400
+    maxWidth: 600,
+    width: 'auto'
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
