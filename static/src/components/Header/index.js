@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { Link, Redirect } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 import LeftNav from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
@@ -33,6 +36,22 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
+const styles = {
+    homeButton: {
+        fontSize: '15px',
+        marginLeft: 25,
+        marginTop: -10,
+        marginRight: 20,
+        color: "inherit"
+    },
+    emptyText: {
+        flex: 1,
+        fontSize: '15px',
+        marginLeft: 25,
+        marginTop: -10
+    }
+}
+
 @connect(mapStateToProps, mapDispatchToProps)
 export class Header extends Component {
     constructor(props) {
@@ -43,7 +62,8 @@ export class Header extends Component {
         };
         this.openFilter = this.openFilter.bind(this);
         this.closeFilter = this.closeFilter.bind(this);
-        // this.applyFilter = this.applyFilter.bind(this);
+        this.applyFilter = this.applyFilter.bind(this);
+        this.homeRedirect = this.homeRedirect.bind(this);
     }
 
     dispatchNewRoute(route) {
@@ -84,27 +104,37 @@ export class Header extends Component {
         this.setState({isFilterOpen: false});
     }
 
-    applyFilter = () => {
+    applyFilter(){
         var parentThis = this;
         this.child.applyFilter();
         this.closeFilter();
+    }
+
+    homeRedirect(){
+        console.log("Redirecting home");
+        this.props.location.pathname == '/home' ?
+        console.log("Already home") :
+        this.props.router.push(`/home`);
     }
 
     render() {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="fixed" style={{ height: 45, backgroundColor: 'green' }}>
+                    <AppBar position="static" style={{ height: 45, backgroundColor: '#18d36e' }}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
-                            <Typography variant="title" color="inherit" style={{flex: 1, fontSize: '15px',  marginLeft: 50, marginTop: -10}}>
+                            <Button variant="title" style={styles.homeButton} onClick={this.homeRedirect} >
                                 LUCID LAW
-                            </Typography>
-                            {this.props.location.pathname == '/results' ?
+                            </Button>
+                            <Typography style={styles.emptyText} />
+
+                            {this.props.location.pathname != '/search' ?
                                 <SearchViewResults  {...this.props} openSearch={true}/> :
                                 console.log("not /results")
                             }
+
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginRight: 180}} onClick={this.openFilter}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
                             }
                             <div>
@@ -137,8 +167,10 @@ export class Header extends Component {
                                     </Button>
                                 </DialogActions>
                             </Dialog>
-                            </div>                         
-                            <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}}>Login</Button>
+                            </div>
+
+                            <Typography style={styles.emptyText} />                      
+                            <Button style={styles.homeButton}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>
