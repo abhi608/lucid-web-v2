@@ -20,12 +20,13 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-
-const style = {
-    marginTop: -10,
-    height: 36,
-    maxWidth: 600,
-    width: 'auto'
+const styles = {
+    searchBar: {
+        marginTop: -10,
+        height: 36,
+        maxWidth: 600,
+        width: 'auto'
+    },
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -86,7 +87,7 @@ export default class SearchViewResults extends React.Component {
                             value={this.state.search_phrase}
                             onChange={this.changeValue}
                             onRequestSearch={this.requestSearch}
-                            style={style}
+                            style={styles.searchBar}
                         />
                             
                 </div>

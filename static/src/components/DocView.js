@@ -3,14 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {Switch, Redirect} from 'react-router';
 
-import SearchBar from 'material-ui-search-bar';
 // import Paper from '@material-ui/core/Paper';
 
 import * as actionCreators from '../actions/auth';
-import { validateEmail } from '../utils/misc';
-
-import SearchViewResults from './SearchViewResults';
 import CaseCard from './CaseCard'
+import ResultsDrawer from './ResultsDrawer'
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,7 +17,11 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
     card: {
+      flex: 1,
       minWidth: 275,
+      paddingBottom: "1.5em",
+      marginTop: 20,
+      marginLeft: 150
     },
     bullet: {
       display: 'inline-block',
@@ -33,7 +34,7 @@ const styles = {
     },
     pos: {
       marginBottom: 12,
-    },
+    }
 };
 
 function mapStateToProps(state) {
@@ -101,7 +102,8 @@ export default class DocView extends React.Component {
     render(){
         if(this.state.response_doc.request_completed){
             return(
-                <div style={{paddingBottom: "1.5em", marginTop: 80}} className="col-md-12">
+                <div>
+                    <ResultsDrawer  {...this.props} />
                     <Card style={styles.card}>
                         <CardContent>
                             <Typography style={styles.title} align="center" color="primary" variant="headline">
