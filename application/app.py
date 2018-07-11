@@ -5,19 +5,21 @@ from sqlalchemy.exc import IntegrityError
 from .utils.auth import generate_token, requires_auth, verify_token
 from scripts.loogal import Loogal
 from forms import search as search_forms
-import time, json
+import time
+import json
 
 aggregations = None
 tid, n_hits, query, doc_list = '', 0, '', []
 is_end = False
-search_size = 10 
+search_size = 10
 loogal = Loogal(search_size)
 active_filter = {}
 hit_dict_list = {}
 headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
 
+
 def parseHitList(hit_list):
-    key_passed = ['tid','title', 'divtype','bench', 'source', 'highlights']
+    key_passed = ['tid', 'title', 'divtype', 'bench', 'source', 'highlights']
     doc_list = []
     # print "aggr: ", hit_list.aggregations
     for hit in hit_list:
@@ -27,7 +29,6 @@ def parseHitList(hit_list):
         if "highlight" in hit.meta:
             if "content" in hit.meta.highlight:
                 hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
-        
         if not hit_dict["author"]:
             hit_dict["author"] = ["Author not available"]
         if not hit_dict["bench"]:
@@ -53,12 +54,14 @@ def parseHitList(hit_list):
         doc_dict = {key: hit_dict[key] for key in key_passed}
         # doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
         doc_list.append(doc_dict)
-        hit_dict_list[str(hit_dict['tid'])]= hit_dict
+        hit_dict_list[str(hit_dict['tid'])] = hit_dict
     return doc_list
+
 
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
 
 @app.route('/<path:path>', methods=['GET'])
 def any_root_path(path):
@@ -69,6 +72,7 @@ def any_root_path(path):
 @requires_auth
 def get_user():
     return jsonify(result=g.current_user)
+
 
 @app.route("/api/getFilterData", methods=["GET"])
 def filter_load():
@@ -84,7 +88,8 @@ def filter_load():
         'divtype': distinct_divtype,
         'source': distinct_source
     }
-    return jsonify(filter_data = filter_data)
+    return jsonify(filter_data=filter_data)
+
 
 @app.route("/api/fetchdoc", methods=["GET"])
 def doc_load():
@@ -137,7 +142,7 @@ def search():
     global active_filter
     global aggregations
     active_filter = {}
-    hit_dict_list = {} 
+    hit_dict_list = {}
     id = -1
     global search_size
     is_end = False
@@ -162,12 +167,11 @@ def search():
         is_filter = request.args.get('is_filter')
         
 
-
     print "Active", active_filter
     start = time.time()
     print "querying time"
     s, n_hits = loogal.find_keyword(query, active_filter)
-    print time.time()-start
+    print time.time() - start
     start = time.time()
     # code to get the first set of search results
     if is_filter:
@@ -177,22 +181,23 @@ def search():
     print "getting results time", time.time()-start
     
     doc_list = parseHitList(hit_list)
-        # print hit_dict['author'], hit_dict['bench']
+    # print hit_dict['author'], hit_dict['bench']
     print "Computed DocList"
     print hit_dict_list.keys()
     if len(doc_list) < search_size:
-	    is_end = True
+        is_end = True
     search_results = {
         "n_hits": n_hits,
         "query": query,
         "doc_list": doc_list
     }
     print "REACHED END"
-    return jsonify(search_results = search_results,
-                        search_size = search_size,
-                        active_filter = active_filter,
-                        query = query,
-			            is_end = is_end)
+    return jsonify(search_results=search_results,
+                   search_size=search_size,
+                   active_filter=active_filter,
+                   query=query,
+                   is_end=is_end)
+
 
 @app.route("/api/get_more", methods=["GET"])
 def get_more():
@@ -209,9 +214,10 @@ def get_more():
     print "Computed DocList"
 
     if len(doc_list) < search_size:
-        is_end = True 
- 
+        is_end = True
+
     return jsonify(doc_list=doc_list, is_end=is_end)
+
 
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
@@ -239,7 +245,7 @@ def create_user():
 def get_token():
     incoming = request.get_json()
     user = User.get_user_with_email_and_password(incoming["email"], incoming["password"])
-    if user: 
+    if user:
         return jsonify(token=generate_token(user))
 
     return jsonify(error=True), 403
@@ -254,4 +260,3 @@ def is_token_valid():
         return jsonify(token_is_valid=True)
     else:
         return jsonify(token_is_valid=False), 403
-

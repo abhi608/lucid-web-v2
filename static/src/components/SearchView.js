@@ -5,9 +5,12 @@ import {Switch, Redirect} from 'react-router';
 
 import SearchBar from 'material-ui-search-bar';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
+
+import Image from '../../img/about-bg.jpg';
 
 function mapStateToProps(state) {
     return {
@@ -21,13 +24,26 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-const style = {
-    marginTop: 50,
-    paddingBottom: 50,
-    paddingTop: 25,
-    width: '100%',
-    textAlign: 'center',
-    display: 'inline-block',
+const styles = {
+    paperContainer: {
+        position: 'static',
+        marginTop: -10,
+        marginLeft: -115,
+        marginBottom: -275,
+        backgroundImage: `url(${Image})`,
+        flex: 1,
+        width: '120%',
+        height: '85.4%',
+        resizeMode: 'contain',
+        opacity: 1.0,
+        paddingTop: 100
+    },
+    searchBar: {
+        margin: '0 auto',
+        maxWidth: 600,
+        width: 'auto',
+        paddingLeft: 20
+    }
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -78,28 +94,23 @@ export default class SearchView extends React.Component {
             
     }
 
-
     render(){
     	return(
-    		<div className="col-md-6 col-md-offset-3">
-                
+    		<div style={styles.paperContainer}>    
                     
                         <div className="text-center">
-                            <h2 style={{marginTop: 70}}>Lucid-Law</h2>
-                            
+                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>
+                                Search Lucid-Law
+                            </Typography>
 
                             <SearchBar
                             	name="search_phrase"
                             	value={this.state.search_phrase}
       							onChange={this.changeValue}
       							onRequestSearch={this.requestSearch}
-      							style={{
-        						margin: '0 auto',
-        						maxWidth: 800
-      							}}
+      							style={styles.searchBar}
     						/>
-                            
-                            
+                                     
                         </div>
 
             </div>

@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
   card: {
-    minWidth: 275,
+    minWidth: 150,
   },
   bullet: {
     display: 'inline-block',
@@ -84,21 +84,18 @@ export default class CaseCard extends React.Component {
 	<div style={{paddingBottom: "1.5em"}}>
 	    <Card style={styles.card}>
 	        <CardContent>
-  	            <Typography style={styles.title} color="textSecondary">
-    	              {this.props.doc_type}  
-  	            </Typography>
   	            <Typography variant="headline" component="h2">
-			{this.props.title}
+                    {this.props.title}
   	            </Typography>
   	            <Typography style={styles.pos} color="textSecondary">
-    	                {this.props.bench},{this.props.source}
+                    {this.props.bench},{this.props.source}
   	            </Typography>
 				{highlights.map(function(d, idx){
-					return (<Typography component="p">...{d}...</Typography>)
+					return (<Typography variant="subheading">...{d}...</Typography>)
 				})}
 	        </CardContent>
 	        <CardActions>
-  	            <Button  size="small" href={"/doc?tid="+this.props.tid.toString()}>View More</Button>
+  	            <Button  size="medium" href={"/doc?tid="+this.props.tid.toString()}>View More</Button>
 	        </CardActions>
 	    </Card>
 	</div>
