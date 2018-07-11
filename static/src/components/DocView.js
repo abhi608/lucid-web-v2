@@ -107,36 +107,41 @@ export default class DocView extends React.Component {
                             <Typography style={styles.title} align="center" color="primary" variant="headline">
                                 {this.state.response_doc.title}  
                             </Typography>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Type: {this.state.response_doc.divtype}  
+                                Type:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.divtype}}></div>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Author: {this.state.response_doc.author}  
+                                Author:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.author}}></div>
+                            
                             <Typography style={styles.title} color="textSecondary">
-                                Bench: {this.state.response_doc.bench}  
+                                Bench:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.bench}}></div>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Source: {this.state.response_doc.source}  
+                                Source:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.source}}></div>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Summary: {this.state.response_doc.summary}  
+                                Summary:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.summary}}></div>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Query based Summary: {this.state.response_doc.query_summary}  
+                                Query based Summary:
                             </Typography>
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.query_summary}}></div>
+
                             <Typography style={styles.title} color="textSecondary">
-                                Content: {this.state.response_doc.doc}  
+                                Content:
                             </Typography>
-                            {/* <Typography variant="headline" component="h2">
-                        {this.props.title}
-                            </Typography>
-                            <Typography style={styles.pos} color="textSecondary">
-                                    {this.props.bench},{this.props.source}
-                            </Typography>
-                            <Typography component="p">
-                                {this.props.highlights} 
-                            </Typography> */}
+                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.doc}}></div>
                         </CardContent>
                         {/* <CardActions>
                             <Button size="small" onClick={this.showDocument}>View More</Button>
