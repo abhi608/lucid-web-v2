@@ -5,8 +5,8 @@ import {Switch, Redirect} from 'react-router';
 
 import * as actionCreators from '../actions/auth';
 
-// var __html = require ('./index.html');
-// var __html = '<p> do you know if this works </p>'
+import './css/style.css'
+
 var __html = `
   <!--==========================
     Header
