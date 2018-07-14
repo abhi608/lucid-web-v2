@@ -1,0 +1,85 @@
+{
+  "version1": {
+    "properties": {
+      "did_you_mean": {
+        "type": "string",
+        "analyzer": "didYouMean"
+      },
+      "autocomplete": {
+        "type": "string",
+        "analyzer": "autocomplete"
+      },
+      "cited_links": {
+        "type": "string"
+      },
+      "author": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "doc": {
+        "type": "string"
+      },
+      "title": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "covers": {
+        "properties" : {
+            "title" : {"type" : "string"},
+            "tid" : {"type" : "integer"}
+        }
+      },
+      "bench": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "content": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "source": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "divtype": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "tid": {
+        "type": "integer"
+      },
+      "summary": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      },
+      "keywords": {
+        "type": "string",
+        "copy_to": [
+          "did_you_mean",
+          "autocomplete"
+        ]
+      }
+    }
+  }
+}
