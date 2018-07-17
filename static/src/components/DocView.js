@@ -94,12 +94,13 @@ export default class DocView extends React.Component {
 		    newState['open'] = true;
 		    parentThis.setState(newState);
 
-		    console.log(this.state);
+		    console.log(parentThis.state);
 	});		
     }
 
 
     render(){
+	const docViewThis = this;
 	const doc_list = this.state.doc_list;
 	const cite_available = this.state.cite_available;
     	return(
@@ -147,20 +148,21 @@ export default class DocView extends React.Component {
       <Dialog
           open={this.state.open}
           onClose={this.handleClose}
+	  fullWidth={true}
           aria-labelledby="form-dialog-title"
         >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+          <DialogTitle id="form-dialog-title">Documents Cited</DialogTitle>
           <DialogContent>
 		{cite_available ? doc_list.map(function(d, idx){
-			 return (<CaseCard {...ResultsViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
+			 return (<CaseCard {...docViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
 				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
 		       })
 		:
 		<p>No cited documents available</p>	}
          </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
+	    <Button onClick={this.handleClose} color="primary">
+		Cancel
             </Button>
           </DialogActions>
         </Dialog>
