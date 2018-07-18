@@ -125,7 +125,7 @@ export class Header extends Component {
     render() {
         return (
             <header>
-                <div style={{flexGrow: 1}}>
+                <div style={{flexGrow: 1, zIndex:100}}>
                     <AppBar position="static" style={styles.appBar}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
                             <Button variant="text" style={styles.homeButton} onClick={this.homeRedirect} >
