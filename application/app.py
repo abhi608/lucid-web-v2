@@ -219,7 +219,7 @@ def get_more():
     return jsonify(doc_list=doc_list, is_end=is_end)
 
 
-@app.route('/api/get_cites/', methods=['GET'])
+@app.route('/api/get_cites', methods=['GET'])
 def get_cites():
     global loogal
     global hit_dict_list
