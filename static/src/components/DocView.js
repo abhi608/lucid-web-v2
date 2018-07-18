@@ -12,11 +12,19 @@ import { validateEmail } from '../utils/misc';
 import SearchViewResults from './SearchViewResults';
 import CaseCard from './CaseCard'
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+
 
 const styles = {
     card: {
@@ -58,25 +66,8 @@ export default class DocView extends React.Component {
             response_doc: {
                 request_completed: false
             }
-        }
-        // var parentThis = this;
-        // console.log("Props: ", this.props);
-        // var search = this.props.location.search;
-        // if(search.charAt(0) == '?'){
-        //     search = search.substr(1);
-        // }
-        // var tid = search.split("=")[1];
-        // console.log("tid: ", tid);
-        // fetch("/api/fetchdoc?tid="+tid, {
-		// 	method: "GET",
-		// }).then((resp) => resp.json()).
-		// then(function(data){
-		// 	console.log("data-init state: ", data);
-		// 	parentThis.setState(data);
-		// });
-
-	    // console.log("init state",this.props.location.state.response);
-        // this.state = this.props.location.state.response;    
+        };
+        this.showCites = this.showCites.bind(this); 
     }
 
     componentWillMount() {
@@ -92,13 +83,48 @@ export default class DocView extends React.Component {
 			method: "GET",
 		}).then((resp) => resp.json()).
 		then(function(data){
-			console.log("data-init state: ", data);
+            console.log("data-init state: ", data);
+            data['open'] = false;
+            data['cite_available'] = false;
+            data['doc_list'] = [];
 			parentThis.setState(data);
-		});
+        });
+    }
+
+    handleClose = () => {
+        this.setState({ open: false });
+    }
+
+    showCites(e){
+	    console.log("cites clicked");
+        var tid = this.state.response_doc.tid;
+        var parentThis = this;
+        var data = {tid: tid};
+        var esc = encodeURIComponent;
+        var query = Object.keys(data)
+                .map(k => esc(k) + '=' + esc(data[k]))
+                            .join('&');
+
+        fetch("/api/get_cites?"+query).then(
+            (resp) => resp.json()).then(
+            function(data){
+                console.log(data);
+                var newState = {}
+                newState['cite_available'] = data.cite_available;
+                newState['doc_list'] = data.doc_list;
+                newState['open'] = true;
+                parentThis.setState(newState);
+
+                console.log(parentThis.state);
+        });
     }
 
 
+
     render(){
+        const docViewThis = this;
+        const doc_list = this.state.doc_list;
+        const cite_available = this.state.cite_available;
         if(this.state.response_doc.request_completed){
             return(
                 <div style={{paddingBottom: "1.5em", marginTop: 80}} className="col-md-12">
@@ -107,46 +133,63 @@ export default class DocView extends React.Component {
                             <Typography style={styles.title} align="center" color="primary" variant="headline">
                                 {this.state.response_doc.title}  
                             </Typography>
-
+                <div className="row">
+                    <div className="col-md-6">
+                        <Typography style={styles.title} color="textSecondary">
+                            Type: {this.state.response_doc.divtype}  
+                        </Typography>
+                        <Typography style={styles.title} color="textSecondary">
+                            Author: {this.state.response_doc.author}  
+                        </Typography>
+                        <Typography style={styles.title} color="textSecondary">
+                            Bench: {this.state.response_doc.bench}  
+                        </Typography>
+                        <Typography style={styles.title} color="textSecondary">
+                            Source: {this.state.response_doc.source}  
+                        </Typography>
+                    </div>
+                    <div className="col-md-6" styles={{alignItems: 'right', display: 'flex'}}>
+                            <Button  variant="raised" color="primary" onClick={this.showCites}>Show Citations</Button>
+    
+                    </div>
+                </div>
                             <Typography style={styles.title} color="textSecondary">
-                                Type:
+                                Query based Summary:<br/> 
+                    {this.state.response_doc.query_summary}  
                             </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.divtype}}></div>
-
+                <Typography style={styles.title} color="textSecondary">
+                                Summary:<br/> 
+                    {this.state.response_doc.summary}  
+                            </Typography>
                             <Typography style={styles.title} color="textSecondary">
-                                Author:
+                                Content:<br/>
+                     {this.state.response_doc.doc}  
                             </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.author}}></div>
                             
-                            <Typography style={styles.title} color="textSecondary">
-                                Bench:
-                            </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.bench}}></div>
-
-                            <Typography style={styles.title} color="textSecondary">
-                                Source:
-                            </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.source}}></div>
-
-                            <Typography style={styles.title} color="textSecondary">
-                                Summary:
-                            </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.summary}}></div>
-
-                            <Typography style={styles.title} color="textSecondary">
-                                Query based Summary:
-                            </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.query_summary}}></div>
-
-                            <Typography style={styles.title} color="textSecondary">
-                                Content:
-                            </Typography>
-                            <div dangerouslySetInnerHTML={{__html: this.state.response_doc.doc}}></div>
                         </CardContent>
-                        {/* <CardActions>
-                            <Button size="small" onClick={this.showDocument}>View More</Button>
-                        </CardActions> */}
                     </Card>
+          <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+          fullWidth={true}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Documents Cited</DialogTitle>
+              <DialogContent>
+            {cite_available ? doc_list.map(function(d, idx){
+                 return (<CaseCard {...docViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
+                    bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
+                   })
+            :
+            <p>No cited documents available</p>	}
+             </DialogContent>
+              <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+            Cancel
+                </Button>
+              </DialogActions>
+            </Dialog>
+    
                 </div>
             );
         }
