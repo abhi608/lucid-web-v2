@@ -117,6 +117,11 @@ export class Header extends Component {
         this.props.router.push(`/home`);
     }
 
+    formRedirect() {
+	console.log("Redirecting to form");
+	this.props.router.push(`/form`);
+    }
+
     render() {
         return (
             <header>
@@ -170,7 +175,7 @@ export class Header extends Component {
                             </div>
 
                             <Typography style={styles.emptyText} />                      
-                          <Button style={styles.homeButton} onClick={this.formRedirect}>Login</Button>
+                          <Button style={styles.homeButton} onClick={this.formRedirect}>Feedback</Button>
                         </Toolbar>
                     </AppBar>
                 </div>
