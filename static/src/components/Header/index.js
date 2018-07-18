@@ -170,7 +170,7 @@ export class Header extends Component {
                             </div>
 
                             <Typography style={styles.emptyText} />                      
-                            <Button style={styles.homeButton}>Login</Button>
+                          <Button style={styles.homeButton} onClick={this.formRedirect}>Login</Button>
                         </Toolbar>
                     </AppBar>
                 </div>
