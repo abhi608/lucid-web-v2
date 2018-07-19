@@ -64,6 +64,7 @@ export class Header extends Component {
         this.closeFilter = this.closeFilter.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
         this.homeRedirect = this.homeRedirect.bind(this);
+	this.formRedirect = this.formRedirect.bind(this);
     }
 
     dispatchNewRoute(route) {
