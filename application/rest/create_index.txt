@@ -1,0 +1,51 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "filter": {
+          "stemmer": {
+            "type": "stemmer",
+            "language": "english"
+          },
+          "autocompleteFilter": {
+            "max_shingle_size": "5",
+            "min_shingle_size": "2",
+            "type": "shingle"
+          },
+          "stopwords": {
+            "type": "stop",
+            "stopwords": [
+              "_english_"
+            ]
+          }
+        },
+        "analyzer": {
+          "didYouMean": {
+            "filter": [
+              "lowercase"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+          },
+          "autocomplete": {
+            "filter": [
+              "lowercase",
+              "autocompleteFilter"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+          },
+          "default": {
+            "filter": [
+              "lowercase",
+              "stopwords",
+              "stemmer"
+            ],
+            "type": "custom",
+            "tokenizer": "standard"
+          }
+        }
+      }
+    }
+  }
+}

@@ -219,6 +219,48 @@ def get_more():
     return jsonify(doc_list=doc_list, is_end=is_end)
 
 
+@app.route('/api/get_cites', methods=['GET'])
+def get_cites():
+    global loogal
+    global hit_dict_list
+    cite_available = True
+    tid = str(request.args.get('tid')) 
+    print ("get_cites",tid)
+    print  hit_dict_list.keys()
+ 
+    if tid in hit_dict_list:
+        response_doc = hit_dict_list[tid] 
+    else:
+	case = loogal.fetch_document(tid).to_dict()
+        if(len(case['hits']['hits']))!=0 :
+	    response_doc = case['hits']['hits'][0]['_source']
+             
+
+    if 'No cited link available' in response_doc['cited_links']:
+	cite_available = False
+	return jsonify(doc_list=[],cite_available=cite_available)
+
+    print response_doc['cited_links']
+    cite_list = [t[5:-1] for t in response_doc['cited_links']]
+    doc_list = []
+    for i, cite_tid in enumerate(cite_list):
+
+        if str(cite_tid) not in hit_dict_list:
+            case = loogal.fetch_document(cite_tid).to_dict()
+            if(len(case['hits']['hits']))!=0 :
+                print case['hits']['hits'][0]['_source'].keys()
+		doc = case['hits']['hits'][0]['_source']
+                hit_dict_list[cite_tid] = doc
+                doc_list.append(doc)
+
+	else:
+	    doc_list.append(hit_dict_list[cite_tid])
+
+    if not doc_list:
+	cite_available = False
+
+    return jsonify(doc_list=doc_list, cite_available=cite_available)
+
 @app.route("/api/create_user", methods=["POST"])
 def create_user():
     incoming = request.get_json()
