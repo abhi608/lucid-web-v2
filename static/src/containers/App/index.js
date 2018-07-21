@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
+
 /* application components */
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -11,11 +12,23 @@ import { Footer } from '../../components/Footer';
 /* global styles for app */
 import './styles/app.scss';
 
-const theme = createMuiTheme({
-    palette: {
-        type: 'light'
-    }
-});
+import indigo from '@material-ui/core/colors/indigo';
+import pink from '@material-ui/core/colors/pink';
+import red from '@material-ui/core/colors/red';
+
+const theme = createMuiTheme(
+	{
+	    palette:{
+    primary: {
+      main: '#1a237e',
+    },
+    secondary: {
+      main: '#00897b',
+    },
+  },
+  
+	}
+	    );
 
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
     static propTypes = {
@@ -24,7 +37,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
 
     render() {
         return (
-            // <MuiThemeProvider muiTheme={theme}>
+             <MuiThemeProvider theme={theme}>
                 <section>
                     <Header {...this.props}/>
                     <div
@@ -37,7 +50,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
                         <Footer />
                     </div>
                 </section>
-            // </MuiThemeProvider>
+            </MuiThemeProvider>
         );
     }
 }

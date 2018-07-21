@@ -91,7 +91,8 @@ export default class CaseCard extends React.Component {
                     {this.props.bench},{this.props.source}
   	            </Typography>
 				{highlights.map(function(d, idx){
-					return (<Typography variant="subheading">...{d}...</Typography>)
+					return (<Typography variant="subheading"><div dangerouslySetInnerHTML={{__html: "..." + d + "..."}}></div>  
+</Typography>)
 				})}
 	        </CardContent>
 	        <CardActions>
