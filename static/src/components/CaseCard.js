@@ -15,6 +15,8 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+const stylesTheme = theme => ({});
+
 const styles = {
   card: {
     minWidth: 150,
@@ -96,7 +98,7 @@ export default class CaseCard extends React.Component {
 				})}
 	        </CardContent>
 	        <CardActions>
-  	            <Button  size="medium" href={"/doc?tid="+this.props.tid.toString()}>View More</Button>
+  	            <Button variant="contained" size="medium" href={"/doc?tid="+this.props.tid.toString()} className={stylesTheme} color="secondary">View More</Button>
 	        </CardActions>
 	    </Card>
 	</div>

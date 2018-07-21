@@ -11,6 +11,7 @@ import { Footer } from '../../components/Footer';
 
 /* global styles for app */
 import './styles/app.scss';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import indigo from '@material-ui/core/colors/indigo';
 import pink from '@material-ui/core/colors/pink';
@@ -19,12 +20,15 @@ import red from '@material-ui/core/colors/red';
 const theme = createMuiTheme(
 	{
 	    palette:{
-    primary: {
+     primary: {
       main: '#1a237e',
     },
     secondary: {
-      main: '#00897b',
+      main: '#84ffff',
     },
+     background: {
+      default: "#757de8"
+    }
   },
   
 	}
@@ -38,6 +42,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     render() {
         return (
              <MuiThemeProvider theme={theme}>
+		<CssBaseline />
                 <section>
                     <Header {...this.props}/>
                     <div
