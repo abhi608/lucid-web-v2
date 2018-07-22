@@ -127,7 +127,7 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="static" style={{ height: 45, backgroundColor: '#18d36e' }}>
+                    <AppBar position="static" style={{ height: 45}}>
                         <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
                             <Button variant="title" style={styles.homeButton} onClick={this.homeRedirect} >
                                 LUCID LAW
