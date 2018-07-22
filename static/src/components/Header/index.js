@@ -64,6 +64,7 @@ export class Header extends Component {
         this.closeFilter = this.closeFilter.bind(this);
         this.applyFilter = this.applyFilter.bind(this);
         this.homeRedirect = this.homeRedirect.bind(this);
+	this.formRedirect = this.formRedirect.bind(this);
     }
 
     dispatchNewRoute(route) {
@@ -115,6 +116,11 @@ export class Header extends Component {
         this.props.location.pathname == '/home' ?
         console.log("Already home") :
         this.props.router.push(`/home`);
+    }
+
+    formRedirect() {
+	console.log("Redirecting to form");
+	this.props.router.push(`/form`);
     }
 
     render() {
@@ -170,7 +176,7 @@ export class Header extends Component {
                             </div>
 
                             <Typography style={styles.emptyText} />                      
-                            <Button style={styles.homeButton}>Login</Button>
+                          <Button style={styles.homeButton} onClick={this.formRedirect}>Feedback</Button>
                         </Toolbar>
                     </AppBar>
                 </div>
