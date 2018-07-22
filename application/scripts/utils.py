@@ -9,7 +9,7 @@ class Esearch():
     '''A class to implement elastic search through python'''
 
     def __init__(self,
-                 search_url='https://126gyb9o3f:kj1wd4axy7@lucid-871717653.us-east-1.bonsaisearch.net/    '):
+                 search_url='https://126gyb9o3f:kj1wd4axy7@lucid-871717653.us-east-1.bonsaisearch.net/'):
 
         bonsai = search_url
         auth = re.search('https\:\/\/(.*)\@', bonsai).group(1).split(':')
@@ -36,38 +36,6 @@ class Esearch():
 
         s = Search(index='lucid').using(self.client)
         print "doc_filter: ", doc_filter
-        # if 'divtype' in doc_filter:
-        #     for i,types in enumerate(doc_filter['divtype']):
-        #         if i==0:
-        #             filt = Q("match",divtype=types)
-        #         else:
-        #             filt = filt|Q("match",divtype=types)
-        #     s = s.filter(filt)
-        # n_hits = s.count()
-        # if 'docsource' in doc_filter:
-        #     for i,types in enumerate(doc_filter['docsource']):
-        #         if i==0:
-        #             filt = Q("match",docsource=types)
-        #         else:
-        #             filt = filt|Q("match",docsource=types)
-        #     s = s.filter(filt)
-
-        # flag = 0
-        # if 'end' in doc_filter:
-        #     flag = 1
-        #     end_year = datetime.datetime(int(doc_filter['end']),12,31)
-        # else:
-        #     end_year = datetime.datetime.now()
-
-        # if 'start' in doc_filter:
-        #     flag = 0
-        #     start_year = datetime.datetime(int(doc_filter['start']),1,1)
-        #     s= s.filter('range',publishdate={'gte':start_year,'lte':end_year})
-
-        # if flag:
-        #     s = s.filter('range',publishdate={'lte':end_year})
-        # the search object. -p indicates sort by order=desc on p
-        # --------------------------------------query-------------------------------------------------------
         q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="best_fields", cutoff_frequency=0.0007,
             operator="and", fuzziness="AUTO")
         q2 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="phrase")
@@ -131,9 +99,12 @@ class Esearch():
         Function to search for a single document given its tid
         '''
         s = Search(index='lucid').using(self.client).query("match", tid=str(key))
-        # print s.to_dict()
+        print s.to_dict()
         result = s.execute()
-        return result[0]
+        if not result:
+            return None
+        else:
+            return result[0]
 
 
 def test_search():

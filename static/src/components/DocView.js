@@ -105,6 +105,8 @@ export default class DocView extends React.Component {
                 .map(k => esc(k) + '=' + esc(data[k]))
                             .join('&');
 
+        console.log("query: ", query);
+
         fetch("/api/get_cites?"+query).then(
             (resp) => resp.json()).then(
             function(data){
