@@ -34,7 +34,7 @@ class Esearch():
         Create the search object and get the number of hits.
         '''
 
-        s = Search(index='lucid').using(self.client)
+        s = Search(index='docs').using(self.client)
         print "doc_filter: ", doc_filter
         q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="best_fields", cutoff_frequency=0.0007,
             operator="and", fuzziness="AUTO")
@@ -98,7 +98,7 @@ class Esearch():
         '''
         Function to search for a single document given its tid
         '''
-        s = Search(index='lucid').using(self.client).query("match", tid=str(key))
+        s = Search(index='docs').using(self.client).query("match", tid=str(key))
         print s.to_dict()
         result = s.execute()
         if not result:
