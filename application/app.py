@@ -18,33 +18,39 @@ hit_dict_list = {}
 headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
 
 def autoFillFields(hit):
-    hit_dict = hit.to_dict()
+    if not hit:
+        print "test"
+        hit_dict = {}
+    else:
+        hit_dict = hit.to_dict()
+    
     hit_dict["highlights"] = []
 
-    if "highlight" in hit.meta:
-        if "content" in hit.meta.highlight:
-            hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
-    if not hit_dict["author"]:
+    if len(hit_dict) > 1:
+        if "highlight" in hit.meta:
+            if "content" in hit.meta.highlight:
+                hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
+    if "author" not in hit_dict or not hit_dict["author"]:
         hit_dict["author"] = ["Author not available"]
-    if not hit_dict["bench"]:
+    if "bench" not in hit_dict or not hit_dict["bench"]:
         hit_dict["bench"] = ["Bench not available"]
-    if not hit_dict["cited_links"]:
+    if "cited_links" not in hit_dict or not hit_dict["cited_links"]:
         hit_dict["cited_links"] = ["No cited link available"]
-    if not hit_dict["cited_titles"]:
+    if "cited_titles" not in hit_dict or not hit_dict["cited_titles"]:
         hit_dict["cited_titles"] = ["No cited title available"]
-    if hit_dict["content"] == "":
+    if "content" not in hit_dict or hit_dict["content"] == "":
         hit_dict["content"] = "Content not available"
-    if hit_dict["divtype"] == "":
+    if "divtype" not in hit_dict or hit_dict["divtype"] == "":
         hit_dict["divtype"] = "Type not available"
-    if hit_dict["doc"] == "":
+    if "doc" not in hit_dict or hit_dict["doc"] == "":
         hit_dict["doc"] = "Content not available"
-    if not hit_dict["keywords"]:
+    if "keywords" not in hit_dict or not hit_dict["keywords"]:
         hit_dict["keywords"] = ["No keyword"]
-    if hit_dict["source"] == "":
+    if "source" not in hit_dict or hit_dict["source"] == "":
         hit_dict["source"] = "Source not available"
-    if hit_dict["summary"] == "":
+    if "summary" not in hit_dict or hit_dict["summary"] == "":
         hit_dict["summary"] = "Summary not available"
-    if hit_dict["title"] == "":
+    if "title" not in hit_dict or hit_dict["title"] == "":
         hit_dict["title"] = "Title not available"
     return hit_dict
 
