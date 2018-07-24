@@ -227,6 +227,7 @@ def get_cites():
         if str(cite_tid) not in hit_dict_list:
             case = loogal.fetch_document(cite_tid).to_dict()
             if(len(case['hits']['hits']))!=0 :
+                print "new:", case['hits']['hits'][0]['_source']
                 print case['hits']['hits'][0]['_source'].keys()
 		doc = case['hits']['hits'][0]['_source']
                 hit_dict_list[cite_tid] = doc

@@ -34,7 +34,7 @@ class Esearch():
         Create the search object and get the number of hits.
         '''
 
-        s = Search(index='lucid').using(self.client)
+        s = Search(index='docs').using(self.client)
         print doc_filter
         if 'divtype' in doc_filter:
             for i,types in enumerate(doc_filter['divtype']):
@@ -90,7 +90,7 @@ class Esearch():
         '''
         Function to search for a single document given its tid
         '''
-        s = Search().using(self.client).query("match", tid=str(key))
+        s = Search(index='docs').using(self.client).query("match", tid=str(key))
         result = s.execute()
         return result
 
