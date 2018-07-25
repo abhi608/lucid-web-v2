@@ -127,9 +127,9 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="static" style={{ height: 45}}>
-                        <Toolbar style={{ marginTop: -5, paddingRight: 0, paddingLeft: 0}}>
-                            <Button variant="title" style={styles.homeButton} onClick={this.homeRedirect} >
+                    <AppBar position="static" style={{ height: 50}}>
+                        <Toolbar style={{ marginTop: -2, paddingRight: 0, paddingLeft: 0}}>
+                            <Button variant="flat" style={styles.homeButton} onClick={this.homeRedirect} >
                                 LUCID LAW
                             </Button>
                             <Typography style={styles.emptyText} />
@@ -140,7 +140,7 @@ export class Header extends Component {
                             }
 
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10}} onClick={this.openFilter}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginLeft: -30}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
                             }
                             <div>

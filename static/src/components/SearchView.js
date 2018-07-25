@@ -29,13 +29,13 @@ const styles = {
         position: 'static',
         marginTop: -10,
         marginLeft: -115,
-        marginBottom: -275,
+        marginBottom: -270,
         backgroundImage: `url(${Image})`,
         flex: 1,
         width: '120%',
         height: '85.4%',
         resizeMode: 'contain',
-        opacity: 1.0,
+        opacity: 0.95,
         paddingTop: 100
     },
     searchBar: {
