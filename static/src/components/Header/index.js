@@ -38,8 +38,13 @@ function mapDispatchToProps(dispatch) {
 
 const styles = {
     appBar: {
-        height: 45,
-        backgroundColor: '#18d36e',
+        height: 55,
+        paddingTop: 5,
+        // backgroundColor: '#18d36e',
+        backgroundColor: '#2F9599',
+        // backgroundColor: '#A7226E',
+        // backgroundColor: '#1ABC9C',
+        // backgroundColor: '#3498DB',
         zIndex: 100
     },
     homeButton: {
