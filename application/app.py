@@ -17,40 +17,50 @@ active_filter = {}
 hit_dict_list = {}
 headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
 
+def autoFillFields(hit):
+    if not hit:
+        print "test"
+        hit_dict = {}
+    else:
+        hit_dict = hit.to_dict()
+    
+    hit_dict["highlights"] = []
+
+    if len(hit_dict) > 1:
+        if "highlight" in hit.meta:
+            if "content" in hit.meta.highlight:
+                hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
+    if "author" not in hit_dict or not hit_dict["author"]:
+        hit_dict["author"] = ["Author not available"]
+    if "bench" not in hit_dict or not hit_dict["bench"]:
+        hit_dict["bench"] = ["Bench not available"]
+    if "cited_links" not in hit_dict or not hit_dict["cited_links"]:
+        hit_dict["cited_links"] = ["No cited link available"]
+    if "cited_titles" not in hit_dict or not hit_dict["cited_titles"]:
+        hit_dict["cited_titles"] = ["No cited title available"]
+    if "content" not in hit_dict or hit_dict["content"] == "":
+        hit_dict["content"] = "Content not available"
+    if "divtype" not in hit_dict or hit_dict["divtype"] == "":
+        hit_dict["divtype"] = "Type not available"
+    if "doc" not in hit_dict or hit_dict["doc"] == "":
+        hit_dict["doc"] = "Content not available"
+    if "keywords" not in hit_dict or not hit_dict["keywords"]:
+        hit_dict["keywords"] = ["No keyword"]
+    if "source" not in hit_dict or hit_dict["source"] == "":
+        hit_dict["source"] = "Source not available"
+    if "summary" not in hit_dict or hit_dict["summary"] == "":
+        hit_dict["summary"] = "Summary not available"
+    if "title" not in hit_dict or hit_dict["title"] == "":
+        hit_dict["title"] = "Title not available"
+    return hit_dict
 
 def parseHitList(hit_list):
     key_passed = ['tid', 'title', 'divtype', 'bench', 'source', 'highlights']
     doc_list = []
+    global hit_dict_list
     # print "aggr: ", hit_list.aggregations
     for hit in hit_list:
-        hit_dict = hit.to_dict()
-        hit_dict["highlights"] = []
-
-        if "highlight" in hit.meta:
-            if "content" in hit.meta.highlight:
-                hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
-        if not hit_dict["author"]:
-            hit_dict["author"] = ["Author not available"]
-        if not hit_dict["bench"]:
-            hit_dict["bench"] = ["Bench not available"]
-        if not hit_dict["cited_links"]:
-            hit_dict["cited_links"] = ["No cited link available"]
-        if not hit_dict["cited_titles"]:
-            hit_dict["cited_titles"] = ["No cited title available"]
-        if hit_dict["content"] == "":
-            hit_dict["content"] = "Content not available"
-        if hit_dict["divtype"] == "":
-            hit_dict["divtype"] = "Type not available"
-        if hit_dict["doc"] == "":
-            hit_dict["doc"] = "Content not available"
-        if not hit_dict["keywords"]:
-            hit_dict["keywords"] = ["No keyword"]
-        if hit_dict["source"] == "":
-            hit_dict["source"] = "Source not available"
-        if hit_dict["summary"] == "":
-            hit_dict["summary"] = "Summary not available"
-        if hit_dict["title"] == "":
-            hit_dict["title"] = "Title not available"
+        hit_dict = autoFillFields(hit)
         doc_dict = {key: hit_dict[key] for key in key_passed}
         # doc_dict['highlights'] = "This is where the highlight will go. Lorem Ipsum totem doloris"
         doc_list.append(doc_dict)
@@ -108,7 +118,8 @@ def doc_load():
     try:
         response_doc = hit_dict_list[tid]
     except:
-        response_doc = loogal.fetch_document(tid).to_dict()
+        response_doc = loogal.fetch_document(tid)
+        response_doc = autoFillFields(response_doc)
     # resp = loogal.fetch_document(tid).to_dict()
     # print resp
     # print "keys for hit_dict_list: ", hit_dict_list.keys()
@@ -227,37 +238,43 @@ def get_cites():
     tid = str(request.args.get('tid')) 
     print ("get_cites",tid)
     print  hit_dict_list.keys()
+    response_doc = None
  
     if tid in hit_dict_list:
         response_doc = hit_dict_list[tid] 
     else:
-	case = loogal.fetch_document(tid).to_dict()
-        if(len(case['hits']['hits']))!=0 :
-	    response_doc = case['hits']['hits'][0]['_source']
+        case = loogal.fetch_document(tid)
+        if not case:
+            raise Exception("tid not found in databse!")
+        response_doc = autoFillFields(case)
              
+    print("response_doc: ", response_doc['cited_links'])
 
-    if 'No cited link available' in response_doc['cited_links']:
-	cite_available = False
-	return jsonify(doc_list=[],cite_available=cite_available)
+    if "No cited link available" in response_doc['cited_links']:
+        print("NO CITED LINK AVAILABLE")
+        cite_available = False
+        return jsonify(doc_list=[],cite_available=cite_available)
 
-    print response_doc['cited_links']
+    # print response_doc['cited_links']
     cite_list = [t[5:-1] for t in response_doc['cited_links']]
+    print("Cite_list: ", cite_list)
     doc_list = []
     for i, cite_tid in enumerate(cite_list):
-
-        if str(cite_tid) not in hit_dict_list:
-            case = loogal.fetch_document(cite_tid).to_dict()
-            if(len(case['hits']['hits']))!=0 :
-                print case['hits']['hits'][0]['_source'].keys()
-		doc = case['hits']['hits'][0]['_source']
-                hit_dict_list[cite_tid] = doc
-                doc_list.append(doc)
-
-	else:
-	    doc_list.append(hit_dict_list[cite_tid])
+        if str(cite_tid).isdigit():
+            if str(cite_tid) not in hit_dict_list:
+                case = loogal.fetch_document(cite_tid)
+                if case:
+                    doc = autoFillFields(case)
+                    hit_dict_list[str(cite_tid)] = doc
+                    doc_list.append(doc)
+            else:
+                doc_list.append(hit_dict_list[cite_tid])
+        
 
     if not doc_list:
-	cite_available = False
+        cite_available = False
+
+    print("doc_list: ", doc_list)
 
     return jsonify(doc_list=doc_list, cite_available=cite_available)
 
