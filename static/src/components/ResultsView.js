@@ -12,6 +12,7 @@ import { validateEmail } from '../utils/misc';
 import SearchViewResults from './SearchViewResults';
 import CaseCard from './CaseCard' 
 import IconLabelButton from './IconLabelButton'
+import Typography from '@material-ui/core/Typography';
 
 function mapStateToProps(state) {
     return {
@@ -79,21 +80,23 @@ export default class ResultsView extends React.Component {
         const docs = this.state.search_results.doc_list;
         const n_hits = this.state.search_results.n_hits;
     	return(
-	<div className="col-md-8 col-md-offset-2" style={{marginTop: 60}}>
-	    <p>{n_hits} results found</p>
-    	    <div  id="docCardList"> 
-            {console.log("Casecard: ", CaseCard)}
-		     {docs.map(function(d, idx){
-			 return (<CaseCard {...ResultsViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
-				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
-		       })}
-              </div>
+    	<div className="col-md-8 col-md-offset-2" style={{marginTop: 60}}>
+            <Typography variant="display1" style={{paddingBottom: 20}}>
+                {n_hits} results found
+            </Typography>
+        	<div  id="docCardList"> 
+                {console.log("Casecard: ", CaseCard)}
+    		      {docs.map(function(d, idx){
+    			 return (<CaseCard {...ResultsViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
+    				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
+    		       })}
+            </div>
 
-	     {this.state.is_end ? <p>No more docs to show</p> :
-	      <div  style={{alignItems:'center', display:'flex', justifyContent:'center'}}>
-		      <IconLabelButton {...this.props}  id="refresh" onClick={this.loadMore}  />	
-	      </div>}
-	</div>
+    	     {this.state.is_end ? <p>No more docs to show</p> :
+    	      <div  style={{alignItems:'center', display:'flex', justifyContent:'center'}}>
+    		      <IconLabelButton {...this.props}  id="refresh" onClick={this.loadMore}  />	
+    	      </div>}
+    	</div>
         );
 
     }
