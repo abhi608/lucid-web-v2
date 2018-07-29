@@ -50,22 +50,23 @@ export default class ResultsView extends React.Component {
 
     
     loadMore(e) {
-	console.log("loadingMore")
-	var parentThis = this;
-	fetch("/api/get_more").then(
-	    (resp) => resp.json()).then(
-		function(data){
-		    console.log(data);
-			var newState = {}
-			newState['load_more'] = true;
-		    newState['is_end'] = data.is_end;
-		    newState['search_results'] = {}
-		    newState.search_results['doc_list'] = parentThis.state.search_results.doc_list.concat(data.doc_list)
-		    parentThis.setState(newState);
+		console.log("loadingMore")
+		var parentThis = this;
+		fetch("/api/get_more").then(
+			(resp) => resp.json()).then(
+			function(data){
+				console.log(data);
+				var newState = {}
+				newState['load_more'] = true;
+				newState['is_end'] = data.is_end;
+				newState['search_results'] = {}
+				newState.search_results['doc_list'] = parentThis.state.search_results.doc_list.concat(data.doc_list)
+				parentThis.setState(newState);
 			});	
     } 
 
     render(){
+		console.log("ttesting search")
 		if(JSON.stringify(this.state) != JSON.stringify(this.props.location.state.response) && !this.state.load_more){
 			console.log("TRUE", this.state, this.props.location.state.response, this.state.load_more);
 			this.setState(this.props.location.state.response);
