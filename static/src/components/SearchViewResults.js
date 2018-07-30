@@ -69,7 +69,7 @@ export default class SearchViewResults extends React.Component {
                 console.log("parent: ", parentThis);
                 parentThis.props.router.push({
                     pathname: '/results',
-                    search: "?"+query,
+                    search: "?  "+query,
                     state: {response: data}
                 });
                 }

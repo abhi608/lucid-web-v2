@@ -11,6 +11,7 @@ import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
 import Image from '../../img/about-bg.jpg';
+import ReactLoading from 'react-loading';
 
 function mapStateToProps(state) {
     return {
@@ -53,6 +54,7 @@ export default class SearchView extends React.Component {
     	super(props);
     	 this.state = {
              search_phrase: '',
+             loading: false,
          };
          this.changeValue = this.changeValue.bind(this);
          this.requestSearch = this.requestSearch.bind(this);
@@ -68,6 +70,7 @@ export default class SearchView extends React.Component {
     }
 
     requestSearch(e) {
+        this.setState({loading: true});
         var data = {
                   search_phrase:this.state.search_phrase,
   				};
@@ -96,9 +99,10 @@ export default class SearchView extends React.Component {
 
     render(){
     	return(
-    		<div style={styles.paperContainer}>    
+    		<div style={styles.paperContainer}> 
                     
                         <div className="text-center">
+
                             <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>
                                 Search Lucid-Law
                             </Typography>
@@ -112,6 +116,12 @@ export default class SearchView extends React.Component {
     						/>
                                      
                         </div>
+                        {this.state.loading ? 
+                            <div style={{marginLeft: "50%"}}>
+                                <ReactLoading type="spinningBubbles" color="#2f9599" height={'10%'} width={'10%'} />
+                            </div> :
+                            console.log("Not loading")
+                        }
 
             </div>
         );
