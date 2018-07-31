@@ -29,7 +29,7 @@ const styles = {
         position: 'static',
         marginTop: -10,
         marginLeft: -115,
-        marginBottom: -270,
+        marginBottom: -255,
         backgroundImage: `url(${Image})`,
         flex: 1,
         width: '120%',

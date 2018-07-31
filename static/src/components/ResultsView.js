@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import SearchViewResults from './SearchViewResults';
 import CaseCard from './CaseCard' 
 import IconLabelButton from './IconLabelButton'
-import Typography from '@material-ui/core/Typography';
 
 function mapStateToProps(state) {
     return {

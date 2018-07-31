@@ -94,14 +94,14 @@ export default class ResultsDrawer extends React.Component {
 
     render(){
         return(
-            /*<div style={{ zIndex: 10 }}>
+            <div style={{ zIndex: 10 }}>
                 <Drawer variant="permanent" style={styles.drawerPaper}>
                         <Typography variant="display1" style={styles.heading}> Search Results </Typography>
                         <Divider />
                         {docList}
                 </Drawer>
-            </div>*/
-            <SwipeableDrawer
+            </div>
+            /*<SwipeableDrawer
                 open={this.drawerOpen}
                 onClose={this.toggleDrawer(false)}
                 onOpen={this.toggleDrawer(true)}
@@ -114,7 +114,7 @@ export default class ResultsDrawer extends React.Component {
                 >
                 {this.docList}
                 </div>
-            </SwipeableDrawer>
+            </SwipeableDrawer>*/
         );
 
     }
