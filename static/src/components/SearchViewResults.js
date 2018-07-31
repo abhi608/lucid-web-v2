@@ -20,6 +20,14 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
+function sanitize(str){
+    var re = new RegExp('/', 'g');
+    var htmlString = str.replace(re, '')
+    re = new RegExp('\\\\', 'g');
+    htmlString = htmlString.replace(re, '')
+    return htmlString;
+}
+
 
 const style = {
     marginTop: -10,
@@ -51,7 +59,7 @@ export default class SearchViewResults extends React.Component {
 
     requestSearch(e) {
         var data = {
-                  search_phrase:this.state.search_phrase,
+                  search_phrase:sanitize(this.state.search_phrase),
   				};
 
   		var esc = encodeURIComponent;

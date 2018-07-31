@@ -24,6 +24,14 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
+function sanitize(str){
+    var re = new RegExp('/', 'g');
+    var htmlString = str.replace(re, '')
+    re = new RegExp('\\\\', 'g');
+    htmlString = htmlString.replace(re, '')
+    return htmlString;
+}
+
 
 const styles = {
     paperContainer: {
@@ -72,7 +80,7 @@ export default class SearchView extends React.Component {
     requestSearch(e) {
         this.setState({loading: true});
         var data = {
-                  search_phrase:this.state.search_phrase,
+                  search_phrase:sanitize(this.state.search_phrase),
   				};
 
   		var esc = encodeURIComponent;
