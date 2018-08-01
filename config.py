@@ -5,7 +5,7 @@ from setup import basedir
 
 class BaseConfig(object):
     SECRET_KEY = "SO_SECURE"
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 
