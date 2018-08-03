@@ -70,22 +70,25 @@ export default class ResultsView extends React.Component {
 
     
     loadMore(e) {
-	console.log("loadingMore")
-	var parentThis = this;
-	fetch("/api/get_more").then(
-	    (resp) => resp.json()).then(
-		function(data){
-		    console.log(data);
-			var newState = {}
-			newState['load_more'] = true;
-		    newState['is_end'] = data.is_end;
-		    newState['search_results'] = {}
-		    newState.search_results['doc_list'] = parentThis.state.search_results.doc_list.concat(data.doc_list)
-		    parentThis.setState(newState);
+
+		console.log("loadingMore", this.state);
+		var n_hits = this.state.search_results.n_hits;
+		var parentThis = this;
+		fetch("/api/get_more").then(
+			(resp) => resp.json()).then(
+			function(data){
+				console.log(data);
+				var newState = {}
+				newState['load_more'] = true;
+				newState['is_end'] = data.is_end;
+				newState['search_results'] = {'n_hits': n_hits};
+				newState.search_results['doc_list'] = parentThis.state.search_results.doc_list.concat(data.doc_list)
+				parentThis.setState(newState);
 			});	
     } 
 
     render(){
+		console.log("ttesting search")
 		if(JSON.stringify(this.state) != JSON.stringify(this.props.location.state.response) && !this.state.load_more){
 			console.log("TRUE", this.state, this.props.location.state.response, this.state.load_more);
 			this.setState(this.props.location.state.response);
@@ -94,6 +97,7 @@ export default class ResultsView extends React.Component {
 		else{
 			this.state.load_more = false;
 		}
+		console.log("new State: ", this.state);
         const ResultsViewThis = this;
         const docs = this.state.search_results.doc_list;
         const n_hits = this.state.search_results.n_hits;

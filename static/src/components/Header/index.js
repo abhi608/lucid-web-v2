@@ -48,17 +48,17 @@ const styles = {
         zIndex: 100
     },
     homeButton: {
-        fontSize: '15px',
-        marginLeft: 25,
-        marginTop: -10,
-        marginRight: 20,
+        fontSize: '1em',
+        marginLeft: '2%',
+        marginTop: '-0.75%',
+        marginRight: '2%',
         color: "inherit"
     },
     emptyText: {
         flex: 1,
-        fontSize: '15px',
-        marginLeft: 25,
-        marginTop: -10
+        fontSize: '1em',
+        marginLeft: '2%',
+        marginTop: '-1%'
     }
 }
 
@@ -137,8 +137,8 @@ export class Header extends Component {
         return (
             <header>
                 <div style={{flexGrow: 1}}>
-                    <AppBar position="static" style={{ height: 50}}>
-                        <Toolbar style={{ marginTop: -2, paddingRight: 0, paddingLeft: 0}}>
+                    <AppBar position="static" style={{ height: '7.5%'}}>
+                        <Toolbar style={{ marginTop: '-0.2%', paddingRight: '0%', paddingLeft: '0%'}}>
                             <Button variant="flat" style={styles.homeButton} onClick={this.homeRedirect} >
                                 LUCID LAW
                             </Button>
@@ -150,7 +150,7 @@ export class Header extends Component {
                             }
 
                             {this.props.location.pathname == '/results' ?
-                                <Button style={{color: "inherit", fontSize: "15px", marginTop: -10, marginLeft: -30}} onClick={this.openFilter}>Filter</Button> :
+                                <Button style={{color: "inherit", fontSize: "1em", marginTop: '-0.75%', marginLeft: '-3%'}} onClick={this.openFilter}>Filter</Button> :
                                 console.log("not /results")
                             }
                             <div>
@@ -167,7 +167,7 @@ export class Header extends Component {
                             onClose={this.closeFilter}
                             aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">Filters</DialogTitle>
-                                <DialogContent style={{minHeight: 550}}>
+                                <DialogContent style={{minHeight: '75%'}}>
                                     {/* <DialogContentText>
                                         To subscribe to this website, please enter your email address here. We will send
                                         updat   es occasionally.

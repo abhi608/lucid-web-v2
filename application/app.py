@@ -230,53 +230,53 @@ def get_more():
     return jsonify(doc_list=doc_list, is_end=is_end)
 
 
-@app.route('/api/get_cites', methods=['GET'])
-def get_cites():
-    global loogal
-    global hit_dict_list
-    cite_available = True
-    tid = str(request.args.get('tid')) 
-    print ("get_cites",tid)
-    print  hit_dict_list.keys()
-    response_doc = None
+# @app.route('/api/get_cites', methods=['GET'])
+# def get_cites():
+#     global loogal
+#     global hit_dict_list
+#     cite_available = True
+#     tid = str(request.args.get('tid')) 
+#     print ("get_cites",tid)
+#     print  hit_dict_list.keys()
+#     response_doc = None
  
-    if tid in hit_dict_list:
-        response_doc = hit_dict_list[tid] 
-    else:
-        case = loogal.fetch_document(tid)
-        if not case:
-            raise Exception("tid not found in databse!")
-        response_doc = autoFillFields(case)
+#     if tid in hit_dict_list:
+#         response_doc = hit_dict_list[tid] 
+#     else:
+#         case = loogal.fetch_document(tid)
+#         if not case:
+#             raise Exception("tid not found in databse!")
+#         response_doc = autoFillFields(case)
              
-    print("response_doc: ", response_doc['cited_links'])
+#     print("response_doc: ", response_doc['cited_links'])
 
-    if "No cited link available" in response_doc['cited_links']:
-        print("NO CITED LINK AVAILABLE")
-        cite_available = False
-        return jsonify(doc_list=[],cite_available=cite_available)
+#     if "No cited link available" in response_doc['cited_links']:
+#         print("NO CITED LINK AVAILABLE")
+#         cite_available = False
+#         return jsonify(doc_list=[],cite_available=cite_available)
 
-    # print response_doc['cited_links']
-    cite_list = [t[5:-1] for t in response_doc['cited_links']]
-    print("Cite_list: ", cite_list)
-    doc_list = []
-    for i, cite_tid in enumerate(cite_list):
-        if str(cite_tid).isdigit():
-            if str(cite_tid) not in hit_dict_list:
-                case = loogal.fetch_document(cite_tid)
-                if case:
-                    doc = autoFillFields(case)
-                    hit_dict_list[str(cite_tid)] = doc
-                    doc_list.append(doc)
-            else:
-                doc_list.append(hit_dict_list[cite_tid])
+#     # print response_doc['cited_links']
+#     cite_list = [t[5:-1] for t in response_doc['cited_links']]
+#     print("Cite_list: ", cite_list)
+#     doc_list = []
+#     for i, cite_tid in enumerate(cite_list):
+#         if str(cite_tid).isdigit():
+#             if str(cite_tid) not in hit_dict_list:
+#                 case = loogal.fetch_document(cite_tid)
+#                 if case:
+#                     doc = autoFillFields(case)
+#                     hit_dict_list[str(cite_tid)] = doc
+#                     doc_list.append(doc)
+#             else:
+#                 doc_list.append(hit_dict_list[cite_tid])
         
 
-    if not doc_list:
-        cite_available = False
+#     if not doc_list:
+#         cite_available = False
 
-    print("doc_list: ", doc_list)
+#     print("doc_list: ", doc_list)
 
-    return jsonify(doc_list=doc_list, cite_available=cite_available)
+#     return jsonify(doc_list=doc_list, cite_available=cite_available)
 
 @app.route("/api/create_user", methods=["POST"])
 def create_user():

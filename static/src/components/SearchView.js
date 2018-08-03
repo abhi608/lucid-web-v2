@@ -11,6 +11,7 @@ import * as actionCreators from '../actions/auth';
 import { validateEmail } from '../utils/misc';
 
 import Image from '../../img/about-bg.jpg';
+import ReactLoading from 'react-loading';
 
 function mapStateToProps(state) {
     return {
@@ -21,6 +22,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
+}
+
+function sanitize(str){
+    var re = new RegExp('/', 'g');
+    var htmlString = str.replace(re, '')
+    re = new RegExp('\\\\', 'g');
+    htmlString = htmlString.replace(re, '')
+    return htmlString;
 }
 
 
@@ -53,6 +62,7 @@ export default class SearchView extends React.Component {
     	super(props);
     	 this.state = {
              search_phrase: '',
+             loading: false,
          };
          this.changeValue = this.changeValue.bind(this);
          this.requestSearch = this.requestSearch.bind(this);
@@ -68,8 +78,9 @@ export default class SearchView extends React.Component {
     }
 
     requestSearch(e) {
+        this.setState({loading: true});
         var data = {
-                  search_phrase:this.state.search_phrase,
+                  search_phrase:sanitize(this.state.search_phrase),
   				};
 
   		var esc = encodeURIComponent;
@@ -96,10 +107,11 @@ export default class SearchView extends React.Component {
 
     render(){
     	return(
-    		<div style={styles.paperContainer}>    
+    		<div> 
                     
-                        <div className="text-center">
-                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>
+                        <div className="text-center" style={{marginBottom: '12.5%', paddingTop: '7%'}}>
+
+                            <Typography variant="display3" style={{color: 'darkslategray', paddingBottom: '2%'}}>
                                 Search Lucid-Law
                             </Typography>
 
@@ -112,6 +124,12 @@ export default class SearchView extends React.Component {
     						/>
                                      
                         </div>
+                        {this.state.loading ? 
+                            <div style={{marginLeft: "50%"}}>
+                                <ReactLoading type="spinningBubbles" color="#2f9599" height={'10%'} width={'10%'} />
+                            </div> :
+                            console.log("Not loading")
+                        }
 
             </div>
         );

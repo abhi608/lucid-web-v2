@@ -68,7 +68,7 @@ export default class DocView extends React.Component {
                 request_completed: false
             }
         };
-        this.showCites = this.showCites.bind(this); 
+        // this.showCites = this.showCites.bind(this); 
     }
 
     componentWillMount() {
@@ -96,31 +96,31 @@ export default class DocView extends React.Component {
         this.setState({ open: false });
     }
 
-    showCites(e){
-	    console.log("cites clicked");
-        var tid = this.state.response_doc.tid;
-        var parentThis = this;
-        var data = {tid: tid};
-        var esc = encodeURIComponent;
-        var query = Object.keys(data)
-                .map(k => esc(k) + '=' + esc(data[k]))
-                            .join('&');
+    // showCites(e){
+	//     console.log("cites clicked");
+    //     var tid = this.state.response_doc.tid;
+    //     var parentThis = this;
+    //     var data = {tid: tid};
+    //     var esc = encodeURIComponent;
+    //     var query = Object.keys(data)
+    //             .map(k => esc(k) + '=' + esc(data[k]))
+    //                         .join('&');
 
-        console.log("query: ", query);
+    //     console.log("query: ", query);
 
-        fetch("/api/get_cites?"+query).then(
-            (resp) => resp.json()).then(
-            function(data){
-                console.log(data);
-                var newState = {}
-                newState['cite_available'] = data.cite_available;
-                newState['doc_list'] = data.doc_list;
-                newState['open'] = true;
-                parentThis.setState(newState);
+    //     fetch("/api/get_cites?"+query).then(
+    //         (resp) => resp.json()).then(
+    //         function(data){
+    //             console.log(data);
+    //             var newState = {}
+    //             newState['cite_available'] = data.cite_available;
+    //             newState['doc_list'] = data.doc_list;
+    //             newState['open'] = true;
+    //             parentThis.setState(newState);
 
-                console.log(parentThis.state);
-        });
-    }
+    //             console.log(parentThis.state);
+    //     });
+    // }
 
 
 
@@ -152,9 +152,9 @@ export default class DocView extends React.Component {
                                         <div dangerouslySetInnerHTML={{__html: "<strong>Source: </strong>" + this.state.response_doc.source}}></div>  
                                     </Typography>
                                 </div>
-                                <div className="col-md-6" styles={{alignItems: 'right', display: 'flex'}}>
+                                {/* <div className="col-md-6" styles={{alignItems: 'right', display: 'flex'}}>
                                     <Button  variant="raised" color="primary" onClick={this.showCites}>Show Citations</Button>
-                                </div>
+                                </div> */}
                             </div>
                             <Typography style={styles.title} color="textSecondary">
                                 <div dangerouslySetInnerHTML={{__html: "<strong>Query based Summary: </strong>" + this.state.response_doc.query_summary}}></div>  
