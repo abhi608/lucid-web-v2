@@ -20,15 +20,6 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-<<<<<<< HEAD
-const styles = {
-    searchBar: {
-        marginTop: -10,
-        height: 36,
-        maxWidth: 600,
-        width: 'auto'
-    },
-=======
 function sanitize(str){
     var re = new RegExp('/', 'g');
     var htmlString = str.replace(re, '')
@@ -44,7 +35,6 @@ const style = {
     maxHeight: 36,
     maxWidth: '90%',
     width: 'auto'
->>>>>>> designflex
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
