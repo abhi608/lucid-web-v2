@@ -107,11 +107,11 @@ export default class SearchView extends React.Component {
 
     render(){
     	return(
-    		<div style={styles.paperContainer}> 
+    		<div> 
                     
                         <div className="text-center">
 
-                            <Typography variant="display3" style={{color: 'white', paddingBottom: 20}}>
+                            <Typography variant="display3" style={{color: '#2f9599', paddingBottom: 20}}>
                                 Search Lucid-Law
                             </Typography>
 
