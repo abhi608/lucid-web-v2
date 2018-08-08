@@ -109,9 +109,9 @@ export default class SearchView extends React.Component {
     	return(
     		<div> 
                     
-                        <div className="text-center">
+                        <div className="text-center" style={{marginBottom: '12.5%', paddingTop: '7%'}}>
 
-                            <Typography variant="display3" style={{color: '#2f9599', paddingBottom: 20}}>
+                            <Typography variant="display3" style={{color: 'darkslategray', paddingBottom: '2%'}}>
                                 Search Lucid-Law
                             </Typography>
 

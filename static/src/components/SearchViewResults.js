@@ -30,9 +30,10 @@ function sanitize(str){
 
 
 const style = {
-    marginTop: -10,
-    height: 36,
-    maxWidth: 600,
+    marginTop: '-1.25%',
+    height: 'auto',
+    maxHeight: 36,
+    maxWidth: '90%',
     width: 'auto'
 };
 
