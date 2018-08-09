@@ -96,7 +96,7 @@ export default class SearchViewResults extends React.Component {
                             value={this.state.search_phrase}
                             onChange={this.changeValue}
                             onRequestSearch={this.requestSearch}
-                            style={styles.searchBar}
+                            style={style}
                         />
                             
                 </div>
