@@ -3,7 +3,7 @@ import ast
 import json
 import requests
 
-url = 'https://nXpfMGj4Ki:sdKhGwvCknNxaUcWT@lucid-871717653.us-east-1.bonsaisearch.net/docs/version1/'
+url = 'https://nXpfMGj4Ki:sdKhGwvCknNxaUcWT@lucid-871717653.us-east-1.bonsaisearch.net/documents/v1/'
 headers = {'content-type': 'application/json'}
 root = '' # path of the docs directory goes here
 docs_not_pushed = []
@@ -18,20 +18,53 @@ for filename in os.listdir(root):
 				except:
 					docs_not_pushed.append({"filename": filename, "error": "tid not present"})
 					print("Skipping document " + filename + "because tid not present")
+
 				cur_data = {
-					"divtype": "",
-					"title": "",
-					"doc": "",
+					"numcites": 0,
+					"covertids": [],
+					"covertitles": [],
 					"author": "",
-					"covers": [],
+					"title": "",
+					"url": "",
+					"keywords": [],
 					"bench": "",
-					"content": "",
+					"citeList": {
+						"tid": None,
+						"url": "",
+						"title": ""
+					},
+					"covers": {
+						"tid": None,
+						"url": "",
+						"title": ""
+					},
 					"source": "",
-					"keywords": "",
-					"cited_links": [],
-					"tid": -1,
+					"numcitedby": 0,
+					"doc": "",
+					"date": None,
+					"divtype": "",
+					"citedbyList": {
+						"tid": None,
+						"url": "",
+						"title": ""
+					},
+					"tid": None,
 					"summary": ""
 				}
+				# cur_data = {
+				# 	"divtype": "",
+				# 	"title": "",
+				# 	"doc": "",
+				# 	"author": "",
+				# 	"covers": [],
+				# 	"bench": "",
+				# 	"content": "",
+				# 	"source": "",
+				# 	"keywords": "",
+				# 	"cited_links": [],
+				# 	"tid": -1,
+				# 	"summary": ""
+				# }
 				for key in data:
 					cur_data[key] = data[key]
 				cur_url = url
@@ -44,4 +77,4 @@ for filename in os.listdir(root):
 					docs_not_pushed.append({"filename": filename, "error": r.text, "status_code": r.status_code})
 
 if len(docs_not_pushed) > 0:
-	print("Docs not pushed: ", docs_not_pushed)
+	print("Docs not pushed:", docs_not_pushed)

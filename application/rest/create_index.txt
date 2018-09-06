@@ -35,6 +35,12 @@
             "type": "custom",
             "tokenizer": "standard"
           },
+          "html_analyzer": {
+            "tokenizer": "keyword",
+            "char_filter": [
+              "html_filter"
+            ]
+          },
           "default": {
             "filter": [
               "lowercase",
@@ -43,6 +49,11 @@
             ],
             "type": "custom",
             "tokenizer": "standard"
+          }
+        },
+        "char_filter": {
+          "html_filter": {
+            "type": "html_strip"
           }
         }
       }
