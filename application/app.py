@@ -1,4 +1,5 @@
 from flask import request, render_template, jsonify, url_for, redirect, g
+from flask import send_from_directory
 from .models import User
 from index import app, db
 from sqlalchemy.exc import IntegrityError
@@ -7,6 +8,7 @@ from scripts.loogal import Loogal
 from forms import search as search_forms
 import time
 import json
+import os
 
 aggregations = None
 tid, n_hits, query, doc_list = '', 0, '', []
@@ -72,11 +74,16 @@ def parseHitList(hit_list):
 def index():
     return render_template('index.html')
 
+@app.route('/.well-known/acme-challenge/<path:filename>')
+def ssl_cert(filename):
+    root_dir = os.path.dirname(os.getcwd())
+    print os.path.join(root_dir, 'static', '.well-known','acme-challenge')
+    return send_from_directory(os.path.join(root_dir, '.well-known','acme-challenge'), filename)
+
 
 @app.route('/<path:path>', methods=['GET'])
 def any_root_path(path):
     return render_template('index.html')
-
 
 @app.route("/api/user", methods=["GET"])
 @requires_auth
