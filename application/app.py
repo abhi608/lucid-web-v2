@@ -9,6 +9,7 @@ from forms import search as search_forms
 import time
 import json
 import os
+import requests
 
 aggregations = None
 tid, n_hits, query, doc_list = '', 0, '', []
@@ -18,6 +19,7 @@ loogal = Loogal(search_size)
 active_filter = {}
 hit_dict_list = {}
 headers = {'X-API-TOKEN': 'AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw'}
+session = requests.Session()
 
 def autoFillFields(hit):
     if not hit:
@@ -112,6 +114,7 @@ def filter_load():
 def doc_load():
     global hit_dict_list
     global tid
+    global session
     if request.args.get("tid"):
         tid = str(request.args.get("tid"))
     print tid
@@ -131,21 +134,23 @@ def doc_load():
     # print resp
     # print "keys for hit_dict_list: ", hit_dict_list.keys()
     # response_doc = hit_dict_list[tid]
-    # headers = {
-    #     'content-type': 'application/json',
-    # }
+    headers = {
+        'content-type': 'application/json',
+    }
 
-    # doc_content = json.dumps(response_doc['doc'])
-    # queryjson = json.dumps(query)
+    doc_content = json.dumps(response_doc['doc'])
+    queryjson = json.dumps(query)
 
-    # data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
+    data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
 
-    # start = time.time()
-    # response = requests.post(
-    #     'http://35.226.191.60:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data)
-    # print "summary_time = "+ str(time.time()-start)
-    # response_doc['query_summary'] = json.loads(response.text)['summary']
-    response_doc['query_summary'] = "Summary goes here"
+    start = time.time()
+    try:
+        response = session.post(
+            'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
+        print "summary_time = "+ str(time.time()-start)
+        response_doc['query_summary'] = json.loads(response.text)['summary']
+    except Exception as e:
+        response_doc['query_summary'] = "Query based summary not available"
     response_doc['request_completed'] = True 
 
     # print response_doc
