@@ -34,18 +34,18 @@ class Esearch():
         Create the search object and get the number of hits.
         '''
 
-        s = Search(index='docs').using(self.client)
+        s = Search(index='documents').using(self.client)
         print "doc_filter: ", doc_filter
-        q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="best_fields", cutoff_frequency=0.0007,
+        q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "doc"], type="best_fields", cutoff_frequency=0.0001,
             operator="and", fuzziness="AUTO")
-        q2 = Q("multi_match", query=keyword, fields=["title", "keywords", "content"], type="phrase")
+        q2 = Q("multi_match", query=keyword, fields=["title", "keywords", "doc"], type="phrase")
         q3 = Q("bool", must=[q1], should=[q2])
         s = s.query(q3)
 
         s = s.suggest("didYouMean", keyword, phrase={'field': 'did_you_mean'})
 
         s = s.highlight_options(order="score", fragment_size=80, no_match_size=0)
-        s = s.highlight('content', number_of_fragments=3)
+        s = s.highlight('doc', number_of_fragments=3)
 
         a1 = A('terms', field='author.keyword', size=500)
         a2 = A('terms', field='bench.keyword', size=500)
@@ -98,7 +98,7 @@ class Esearch():
         '''
         Function to search for a single document given its tid
         '''
-        s = Search(index='docs').using(self.client).query("match", tid=str(key))
+        s = Search(index='documents').using(self.client).query("match", tid=str(key))
         print s.to_dict()
         result = s.execute()
         if not result:

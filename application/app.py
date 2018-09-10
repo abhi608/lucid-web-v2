@@ -30,32 +30,36 @@ def autoFillFields(hit):
     
     hit_dict["highlights"] = []
 
+    # print "hit: ", hit.meta.highlight
+
     if len(hit_dict) > 1:
         if "highlight" in hit.meta:
-            if "content" in hit.meta.highlight:
-                hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.content]
+            if "doc" in hit.meta.highlight:
+                hit_dict["highlights"] = [str(val) for val in hit.meta.highlight.doc]
+
+    print "inside autoFillFields: ", hit_dict["highlights"]
     if "author" not in hit_dict or not hit_dict["author"]:
-        hit_dict["author"] = ["Author not available"]
+        hit_dict["author"] = "<em>Author not available</em>"
     if "bench" not in hit_dict or not hit_dict["bench"]:
-        hit_dict["bench"] = ["Bench not available"]
-    if "cited_links" not in hit_dict or not hit_dict["cited_links"]:
-        hit_dict["cited_links"] = ["No cited link available"]
-    if "cited_titles" not in hit_dict or not hit_dict["cited_titles"]:
-        hit_dict["cited_titles"] = ["No cited title available"]
-    if "content" not in hit_dict or hit_dict["content"] == "":
-        hit_dict["content"] = "Content not available"
+        hit_dict["bench"] = "<em>Bench not available</em>"
+    # if "cited_links" not in hit_dict or not hit_dict["cited_links"]:
+    #     hit_dict["cited_links"] = ["No cited link available"]
+    # if "cited_titles" not in hit_dict or not hit_dict["cited_titles"]:
+    #     hit_dict["cited_titles"] = ["No cited title available"]
+    # if "content" not in hit_dict or hit_dict["content"] == "":
+    #     hit_dict["content"] = "<em>Content not available</em>"
     if "divtype" not in hit_dict or hit_dict["divtype"] == "":
-        hit_dict["divtype"] = "Type not available"
+        hit_dict["divtype"] = "<em>Type not available</em>"
     if "doc" not in hit_dict or hit_dict["doc"] == "":
-        hit_dict["doc"] = "Content not available"
+        hit_dict["doc"] = "<em>Content not available</em>"
     if "keywords" not in hit_dict or not hit_dict["keywords"]:
         hit_dict["keywords"] = ["No keyword"]
     if "source" not in hit_dict or hit_dict["source"] == "":
-        hit_dict["source"] = "Source not available"
+        hit_dict["source"] = "<em>Source not available</em>"
     if "summary" not in hit_dict or hit_dict["summary"] == "":
-        hit_dict["summary"] = "Summary not available"
+        hit_dict["summary"] = "<em>Summary not available</em>"
     if "title" not in hit_dict or hit_dict["title"] == "":
-        hit_dict["title"] = "Title not available"
+        hit_dict["title"] = "<em>Title not available</em>"
     return hit_dict
 
 def parseHitList(hit_list):
@@ -201,12 +205,12 @@ def search():
         s, hits_end, hit_list, _ = loogal.get_next_set_of_results()
     else:
         s, hits_end, hit_list, aggregations = loogal.get_next_set_of_results()
-    print "getting results time", time.time()-start
-    
+    print "getting results time: ", time.time()-start
+    # print "hit_list keys:", hit_list
     doc_list = parseHitList(hit_list)
     # print hit_dict['author'], hit_dict['bench']
     print "Computed DocList"
-    print hit_dict_list.keys()
+    print "KEYS: ", hit_dict_list.keys()
     if len(doc_list) < search_size:
         is_end = True
     search_results = {
