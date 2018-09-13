@@ -1,0 +1,162 @@
+{
+    "_v1": {
+        "properties": {
+            "numcites": {
+                "type": "integer"
+            },
+            "benchcount": {
+                "type": "integer"
+            },
+            "covertids": {
+                "type": "integer"
+            },
+            "covertitles": {
+                "type": "text"  
+            },
+            "author": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                    "type": "keyword"
+                    }
+                },
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "title": {
+                "type": "text",
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "url": {
+                "type": "text"
+            },
+            "keywords": {
+                "type": "text",
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "autocomplete": {
+                "type": "text",
+                "analyzer": "autocomplete"
+            },
+            "bench": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                    "type": "keyword"
+                    }
+                },
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "citeList": {
+                "properties": {
+                    "tid": {
+                        "type": "integer"
+                    },
+                    "url": {
+                        "type": "text"
+                    },
+                    "title": {
+                        "type": "text"
+                    }
+                }
+            },
+            "did_you_mean": {
+                "type": "text",
+                "analyzer": "didYouMean"
+            },
+            "covers": {
+                "properties": {
+                    "tid": {
+                    "type": "integer"
+                    },
+                    "title": {
+                    "type": "text"
+                    },
+                    "url": {
+                        "type": "text"
+                    }
+                }
+            },
+            "source": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                    "type": "keyword"
+                    }
+                },
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "numcitedby":{
+                "type": "integer"
+            },
+            "content": {
+                "type": "text",
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "doc": {
+                "type": "text",
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "date": {
+                "type": "integer"
+            },
+            "divtype": {
+                "type": "text",
+                "fields": {
+                    "keyword": {
+                    "type": "keyword"
+                    }
+                },
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            },
+            "citedbyList": {
+                "properties": {
+                    "tid": {
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "text"
+                    },
+                    "url": {
+                        "type": "text"
+                    }
+                }
+            },
+            "tid": {
+                "type": "integer"
+            },
+            "summary": {
+                "type": "text",
+                "copy_to": [
+                    "did_you_mean",
+                    "autocomplete"
+                ]
+            }
+        
+            
+        }
+    }
+}

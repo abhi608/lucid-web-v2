@@ -1,0 +1,20 @@
+Serial no | Field in db | Field in data from ikanoon | data type in ikanoon | data type needed in db
+1 | numcites | numcites | Integer | Integer
+2 | covertids | covertids | List of Integer | List of Integer
+3 | covertitles | covertitles | List of String | List of String
+4 | author | firstname lastname | String | Comma separated String(e.g. - M Ahmad, V Bhargava)
+5 | title | title | String | String
+6 | url | url | String | String
+7 | keywords | <generate it> | <does not exist> | List of String
+8 | bench | <need to scrape it from doc> | <does not exist> | Comma separated String(e.g. - M Ahmad, V Bhargava)
+9 | citeList | citeList | List of dict of {int, string, string} | List of dict of {int, string, string}
+10 | covers | covers | List of dict of {int, string, string} | List of dict of {int, string, string}
+11 | source | docsource | String | String
+12 | numcitedby | numcitedby | Integer | Integer
+13 | content | <remove html tags from doc> | String | String
+14 | doc | doc | String | String 
+15 | date | publishdate | String(YYYY-MM-DD) | epoch_time
+16 | divtype | divtype | String | String
+17 | citedbyList | citedbyList | List of dict of {int, string, string} | List of dict of {int, string, string}
+18 | tid | tid | Integer | Integer
+19 | summary | <generate it> | <does not exist> | String
