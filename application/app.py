@@ -102,12 +102,14 @@ def filter_load():
     global aggregations
     distinct_author = [term.key for term in aggregations.distinct_author.buckets]
     distinct_bench = [term.key for term in aggregations.distinct_bench.buckets]
+    distinct_benchcount = [term.key for term in aggregations.distinct_benchcount.buckets]
     distinct_divtype = [term.key for term in aggregations.distinct_divtype.buckets]
     distinct_source = [term.key for term in aggregations.distinct_source.buckets]
     # print distinct_author, distinct_bench, distinct_divtype, distinct_source
     filter_data = {
         'author': distinct_author,
         'bench': distinct_bench,
+        'benchcount': distinct_benchcount,
         'divtype': distinct_divtype,
         'source': distinct_source
     }
@@ -183,6 +185,9 @@ def search():
     if request.args.get('bench'):
         print "Bench:", request.args.get('bench')
         active_filter['bench'] = request.args.get('bench').split(',')
+    if request.args.get('benchcount'):
+        print "BenchCount:", request.args.get('benchcount')
+        active_filter['benchcount'] = request.args.get('benchcount').split(',')
     if request.args.get('divtype'):
         print "DivType:", request.args.get('divtype')
         active_filter['divtype'] = request.args.get('divtype').split(',')

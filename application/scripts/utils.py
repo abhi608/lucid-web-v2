@@ -51,10 +51,12 @@ class Esearch():
         a2 = A('terms', field='bench.keyword', size=500)
         a3 = A('terms', field='divtype.keyword', size=500)
         a4 = A('terms', field='source.keyword', size=500)
+        a5 = A('terms', field='benchcount', size=500)
         s.aggs.bucket('distinct_author', a1)
         s.aggs.bucket('distinct_bench', a2)
         s.aggs.bucket('distinct_divtype', a3)
         s.aggs.bucket('distinct_source', a4)
+        s.aggs.bucket('distinct_benchcount', a5)
 
         if 'author' in doc_filter:
             for i,item in enumerate(doc_filter['author']):
@@ -70,6 +72,14 @@ class Esearch():
                     filt = Q("match",bench=item)
                 else:
                     filt = filt|Q("match",bench=item)
+            s = s.filter(filt)
+
+        if 'benchcount' in doc_filter:
+            for i,item in enumerate(doc_filter['benchcount']):
+                if i==0:
+                    filt = Q("match",benchcount=item)
+                else:
+                    filt = filt|Q("match",benchcount=item)
             s = s.filter(filt)
 
         if 'divtype' in doc_filter:

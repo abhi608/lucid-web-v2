@@ -258,6 +258,7 @@ class Filter extends React.Component {
     var queryData = {}
     if(this.state.author) queryData['author'] = this.state.author;
     if(this.state.bench) queryData['bench'] = this.state.bench;
+    if(this.state.benchcount) queryData['benchcount'] = this.state.benchcount;
     if(this.state.divtype) queryData['divtype'] = this.state.divtype;
     if(this.state.source) queryData['source'] = this.state.source;
     if(this.state.search_phrase) queryData['search_phrase'] = this.state.search_phrase;
@@ -345,6 +346,31 @@ class Filter extends React.Component {
               id: 'react-select-chip-label',
               simpleValue: true,
               options: this.state.filter_data.bench,
+            },
+          }}
+        />
+        </div>
+
+        <div style={{height: 90}}>
+        <TextField
+          fullWidth
+          value={this.state.benchcount}
+          onChange={this.handleChange('benchcount')}
+          placeholder="Select multiple bench counts"
+          name="react-select-chip-label"
+          label="BenchCounts"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            inputComponent: SelectWrapped,
+            inputProps: {
+              classes,
+              multi: true,
+              instanceId: 'react-select-chip-label',
+              id: 'react-select-chip-label',
+              simpleValue: true,
+              options: this.state.filter_data.benchcount,
             },
           }}
         />
