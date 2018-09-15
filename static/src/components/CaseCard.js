@@ -80,7 +80,8 @@ export default class CaseCard extends React.Component {
 	}
 
     render(){
-		const highlights = this.props.highlights;
+	const highlights = this.props.highlights;
+	const query = this.props.query;
 	console.log("card",this.state)
 	return (
 	<div style={{paddingBottom: "1.5em"}}>
@@ -98,7 +99,7 @@ export default class CaseCard extends React.Component {
 				})}
 	        </CardContent>
 	        <CardActions>
-  	            <Button variant="contained" size="medium" href={"/doc?tid="+this.props.tid.toString()} className={stylesTheme} color="secondary">View More</Button>
+  	            <Button variant="contained" size="medium" href={"/doc?tid="+this.props.tid.toString()+"&query="+this.props.query} className={stylesTheme} color="secondary">View More</Button>
 	        </CardActions>
 	    </Card>
 	</div>

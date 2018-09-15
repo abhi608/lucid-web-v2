@@ -77,9 +77,17 @@ export default class DocView extends React.Component {
         if(search.charAt(0) == '?'){
             search = search.substr(1);
         }
-        var tid = search.split("=")[1];
+        var tid = search.split(/[=&]+/)[1];
+        var req = "/api/fetchdoc?tid="+tid;
+        if(search.includes("&")){
+            var query = search.split(/[=&]+/)[3];
+            console.log("query: ", query);
+            req = req+"&query="+query;
+        }
+        console.log("Query", query);
+        // var query = search.split(/[=&]+/)[3];
         console.log("tid: ", tid);
-        fetch("/api/fetchdoc?tid="+tid, {
+        fetch(req, {
 			method: "GET",
 		}).then((resp) => resp.json()).
 		then(function(data){
@@ -154,9 +162,13 @@ export default class DocView extends React.Component {
                                     <Button  variant="raised" color="primary" onClick={this.showCites}>Show Citations</Button>
                                 </div> */}
                             </div>
-                            <Typography style={styles.title} color="textSecondary">
-                                <div dangerouslySetInnerHTML={{__html: "<strong>Query based Summary: </strong>" + this.state.response_doc.query_summary}}></div>  
-                            </Typography>
+                            {this.state.response_doc.query_summary?
+                                <Typography style={styles.title} color="textSecondary">
+                                    <div dangerouslySetInnerHTML={{__html: "<strong>Query based Summary: </strong>" + this.state.response_doc.query_summary}}></div>  
+                                </Typography>:
+                                console.log("no query based summarization")
+                            }
+                            
                             <Typography style={styles.title} color="textSecondary">
                                 <div dangerouslySetInnerHTML={{__html: "<strong>Summary: </strong>" + this.state.response_doc.summary}}></div>  
                             </Typography>

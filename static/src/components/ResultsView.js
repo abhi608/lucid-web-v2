@@ -81,7 +81,8 @@ export default class ResultsView extends React.Component {
 		console.log("new State: ", this.state);
         const ResultsViewThis = this;
         const docs = this.state.search_results.doc_list;
-        const n_hits = this.state.search_results.n_hits;
+		const n_hits = this.state.search_results.n_hits;
+		const query = this.state.query;
     	return(
     	<div className="col-md-8 col-md-offset-2" style={{marginTop: 60}}>
             <Typography variant="display1" style={{paddingBottom: 20}}>
@@ -91,7 +92,7 @@ export default class ResultsView extends React.Component {
                 {console.log("Casecard: ", CaseCard)}
     		      {docs.map(function(d, idx){
     			 return (<CaseCard {...ResultsViewThis.props} title={d.title} tid={d.tid} key={d.tid} 
-    				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} />)
+    				bench={d.bench} source={d.source} highlights={d.highlights} doc_type={d.divtype} query={query} />)
     		       })}
             </div>
 

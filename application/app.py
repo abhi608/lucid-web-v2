@@ -123,7 +123,11 @@ def doc_load():
     global session
     if request.args.get("tid"):
         tid = str(request.args.get("tid"))
-    print tid
+    
+    cur_query = None
+    if request.args.get("query"):
+        cur_query = str(request.args.get("query"))
+    print tid, cur_query
     try:
         assert tid != -1
     except:
@@ -146,18 +150,24 @@ def doc_load():
 
     doc_content = json.dumps(response_doc['doc'])
     queryjson = json.dumps(query)
+    print("cur_query: ", cur_query)
 
-    data = '{"doc":'+ doc_content + ',"query":'+queryjson+'}'
+    if cur_query:
+        data = '{"doc":'+ doc_content + ',"query":'+cur_query+'}'
 
-    start = time.time()
-    try:
-        response = session.post(
-            'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
-        print "summary_time = "+ str(time.time()-start)
-        response_doc['query_summary'] = json.loads(response.text)['summary']
-    except Exception as e:
-        response_doc['query_summary'] = "Query based summary not available"
-    response_doc['request_completed'] = True 
+        start = time.time()
+        try:
+            response = session.post(
+                'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
+            print "summary_time = "+ str(time.time()-start)
+            response_doc['query_summary'] = json.loads(response.text)['summary']
+        except Exception as e:
+            response_doc['query_summary'] = "Query based summary not available"
+    else:
+        response_doc['query_summary'] = None
+
+    response_doc['request_completed'] = True
+    
 
     # print response_doc
     return jsonify(response_doc = response_doc)
