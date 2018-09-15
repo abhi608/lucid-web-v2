@@ -358,7 +358,7 @@ class Filter extends React.Component {
           onChange={this.handleChange('benchcount')}
           placeholder="Select multiple bench counts"
           name="react-select-chip-label"
-          label="BenchCounts"
+          label="Bench Count"
           InputLabelProps={{
             shrink: true,
           }}
