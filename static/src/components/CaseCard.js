@@ -91,7 +91,7 @@ export default class CaseCard extends React.Component {
                     {this.props.title}
   	            </Typography>
   	            <Typography style={styles.pos} color="textSecondary">
-                    {this.props.bench},{this.props.source}
+				  	<div dangerouslySetInnerHTML={{__html: this.props.bench + " | " + this.props.source}}></div>
   	            </Typography>
 				{highlights.map(function(d, idx){
 					return (<Typography variant="subheading"><div dangerouslySetInnerHTML={{__html: "..." + d + "..."}}></div>  

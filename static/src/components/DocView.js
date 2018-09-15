@@ -23,8 +23,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { List, ListItem } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 
-
+const classes = theme => ({
+    root: {
+      width: '100%',
+      maxWidth: 360,
+      backgroundColor: theme.palette.background.paper,
+    },
+});
 
 const styles = {
     card: {
@@ -65,7 +73,9 @@ export default class DocView extends React.Component {
         this.state = {
             response_doc: {
                 request_completed: false
-            }
+            },
+            showCiteList: false,
+            showCitedByList: false,
         };
         // this.showCites = this.showCites.bind(this); 
     }
@@ -103,31 +113,23 @@ export default class DocView extends React.Component {
         this.setState({ open: false });
     }
 
-    // showCites(e){
-	//     console.log("cites clicked");
-    //     var tid = this.state.response_doc.tid;
-    //     var parentThis = this;
-    //     var data = {tid: tid};
-    //     var esc = encodeURIComponent;
-    //     var query = Object.keys(data)
-    //             .map(k => esc(k) + '=' + esc(data[k]))
-    //                         .join('&');
+    openCiteList = () => {
+        this.setState({showCiteList: true});
+    }
 
-    //     console.log("query: ", query);
+    closeCiteList = () => {
+        this.setState({showCiteList: false});
+    }
 
-    //     fetch("/api/get_cites?"+query).then(
-    //         (resp) => resp.json()).then(
-    //         function(data){
-    //             console.log(data);
-    //             var newState = {}
-    //             newState['cite_available'] = data.cite_available;
-    //             newState['doc_list'] = data.doc_list;
-    //             newState['open'] = true;
-    //             parentThis.setState(newState);
+    openCitedByList = () => {
+        this.setState({showCitedByList: true});
+    }
 
-    //             console.log(parentThis.state);
-    //     });
-    // }
+    closeCitedByList = () => {
+        this.setState({showCitedByList: false});
+    }
+
+
 
 
 
@@ -135,17 +137,106 @@ export default class DocView extends React.Component {
         const docViewThis = this;
         const doc_list = this.state.doc_list;
         const cite_available = this.state.cite_available;
+        console.log("this.state.response_doc: ", this.state.response_doc);
+        var citeList = [{'tid': null, 'url': null, 'title': null, 'msg': 'No Citation available'}];
+        var citedByList = [{'tid': null, 'url': null, 'title': null, 'msg': 'No Cited by document available'}];
+        if(this.state.response_doc.citeList && this.state.response_doc.citeList.length > 0) {
+            citeList = this.state.response_doc.citeList;
+        }
+
+        if(this.state.response_doc.citedbyList && this.state.response_doc.citedbyList.length > 0) {
+            citedByList = this.state.response_doc.citedbyList;
+        }
         if(this.state.response_doc.request_completed){
             return(
                 <div style={{paddingBottom: "1.5em", marginTop: 80}} className="col-md-12">
+
+                    <div>
+                        <Dialog
+                        fullWidth
+                        maxWidth='md'
+                        open={this.state.showCiteList}
+                        onClose={this.closeCiteList}
+                        aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Citations</DialogTitle>
+                            <DialogContent style={{minHeight: '75%'}}>
+                                <div className={classes.root}>
+                                    {this.state.response_doc.citeList.length == 0?
+                                        <em>No citations available</em>:
+                                        <List>
+                                        {this.state.response_doc.citeList.map(function(d, idx){
+                                            return (<div>
+                                                <div><strong>Title:</strong> {d.title}</div>
+                                                {d.url?
+                                                    <div><strong>Link:</strong> <a href={d.url}>{d.url}</a></div>:
+                                                    console.log("url not found")
+                                                }
+                                                <li>
+                                                    <Divider/>
+                                                </li>
+                                                <br/>
+                                            </div>)
+                                        })}
+                                        </List>
+                                    }
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.closeCiteList} color="primary">
+                                    Close
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
+
+                    <div>
+                        <Dialog
+                        fullWidth
+                        maxWidth='md'
+                        open={this.state.showCitedByList}
+                        onClose={this.closeCitedByList}
+                        aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Cited by</DialogTitle>
+                            <DialogContent style={{minHeight: '75%'}}>
+                                <div className={classes.root}>
+                                    {this.state.response_doc.citedbyList.length == 0?
+                                        <em>No cited by documents available</em>:
+                                        <List>
+                                        {this.state.response_doc.citedbyList.map(function(d, idx){
+                                            return (<div>
+                                                <div><strong>Title:</strong> {d.title}</div>
+                                                {d.url?
+                                                    <div><strong>Link:</strong> <a href={d.url}>{d.url}</a></div>:
+                                                    console.log("url not found")
+                                                }
+                                                <li>
+                                                    <Divider/>
+                                                </li>
+                                                <br/>
+                                            </div>)
+                                        })}
+                                        </List>
+                                    }
+                                </div>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={this.closeCitedByList} color="primary">
+                                    Close
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                    </div>
+
                     <Card style={styles.card}>
                         <CardContent>
                             <Typography style={styles.title} align="center" color="primary" variant="headline">
                                 {this.state.response_doc.title}  
                             </Typography>
+
+
                             <div className="row">
                                 <div className="col-md-6">
-                                    <Typography style={styles.title} color="textSecondary">
+                                    <Typography style={styles.title} color="textSecondary" >
                                         <div dangerouslySetInnerHTML={{__html: "<strong>Type: </strong>" + this.state.response_doc.divtype}}></div>  
                                     </Typography>
                                     <Typography style={styles.title} color="textSecondary">
@@ -158,9 +249,12 @@ export default class DocView extends React.Component {
                                         <div dangerouslySetInnerHTML={{__html: "<strong>Source: </strong>" + this.state.response_doc.source}}></div>  
                                     </Typography>
                                 </div>
-                                {/* <div className="col-md-6" styles={{alignItems: 'right', display: 'flex'}}>
-                                    <Button  variant="raised" color="primary" onClick={this.showCites}>Show Citations</Button>
-                                </div> */}
+                                <div class="col-md-3 col-offset-9" >
+                                    <Button variant="contained" size="medium" onClick={this.openCiteList} color="secondary">Citations</Button>
+                                </div>
+                                <div class="col-md-3 col-offset-9">
+                                    <Button variant="contained" size="medium" onClick={this.openCitedByList} color="secondary">Cited By</Button>
+                                </div>
                             </div>
                             {this.state.response_doc.query_summary?
                                 <Typography style={styles.title} color="textSecondary">
