@@ -381,7 +381,7 @@ class Filter extends React.Component {
           fullWidth
           value={this.state.divtype}
           onChange={this.handleChange('divtype')}
-          placeholder="Select multiple divtypes"
+          placeholder="Select multiple Document Types"
           name="react-select-chip-label"
           label="Divtypes"
           InputLabelProps={{
