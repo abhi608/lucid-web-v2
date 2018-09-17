@@ -29,7 +29,9 @@ export default (
         <Route path="analytics" component={requireAuthentication(Analytics)} />
         <Route path="search" component={requireNoAuthentication(SearchView)} />
         <Route path="results" component={requireNoAuthentication(ResultsView)} />
+        <Route path="resultsScc" component={requireNoAuthentication(ResultsView)} />
         <Route path="doc" component={requireNoAuthentication(DocView)} />
+        <Route path="docScc" component={requireNoAuthentication(DocView)} />
 	<Route path='form' component={() => window.location = 'https://goo.gl/forms/nSOR4qHURBrJP7kb2'}/>
         <Route path="*" component={DetermineAuth(NotFound)} />
     </Route>

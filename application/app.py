@@ -186,9 +186,13 @@ def search():
     global search_size
     is_end = False
     is_filter = False
+    domain = None
     if request.args.get('search_phrase'):
         print request.args.get('search_phrase')
         query = request.args.get('search_phrase')
+    if request.args.get('domain'):
+        print request.args.get('domain')
+        domain = request.args.get('domain')
     if request.args.get('author'):
         print "Author:", request.args.get('author')
         active_filter['author'] = request.args.get('author').split(',')
@@ -212,7 +216,8 @@ def search():
     print "Active", active_filter
     start = time.time()
     print "querying time"
-    s, n_hits = loogal.find_keyword(query, active_filter)
+    print "domain: ", domain
+    s, n_hits = loogal.find_keyword(query, active_filter, domain)
     print time.time() - start
     start = time.time()
     # code to get the first set of search results

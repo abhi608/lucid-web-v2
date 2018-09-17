@@ -134,7 +134,7 @@ export class Header extends Component {
                             </Button>
                             <Typography style={styles.emptyText} />
 
-                            {this.props.location.pathname != '/search' ?
+                            {(this.props.location.pathname != '/search' && this.props.location.pathname != '/resultsScc' && this.props.location.pathname != '/docScc') ?
                                 <SearchViewResults  {...this.props} openSearch={true}/> :
                                 console.log("not /results")
                             }
@@ -160,7 +160,7 @@ export class Header extends Component {
                                 <DialogContent style={{minHeight: '75%'}}>
                                     {/* <DialogContentText>
                                         To subscribe to this website, please enter your email address here. We will send
-                                        updat   es occasionally.
+                                        updates occasionally.
                                     </DialogContentText> */}
                                     <Filter onRef={ref => (this.child = ref)} {...this.props}/>
                                 </DialogContent>

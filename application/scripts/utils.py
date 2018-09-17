@@ -29,12 +29,14 @@ class Esearch():
         for hit in s:
             hit_ids.append(hit['tid'])
 
-    def search_keyword(self, keyword,doc_filter=None, size=10):
+    def search_keyword(self, keyword,doc_filter=None, size=10, domain=None):
         '''
         Create the search object and get the number of hits.
         '''
 
         s = Search(index='documents').using(self.client)
+        if domain == 'scc':
+            s = Search(index=domain).using(self.client)
         print "doc_filter: ", doc_filter
         q1 = Q("multi_match", query=keyword, fields=["title", "keywords", "doc"], type="best_fields", cutoff_frequency=0.0001,
             operator="and", fuzziness="AUTO")
@@ -104,11 +106,13 @@ class Esearch():
         hits_start = 0
         return s, n_hits
 
-    def get_doc(self, key):
+    def get_doc(self, key, domain=None):
         '''
         Function to search for a single document given its tid
         '''
         s = Search(index='documents').using(self.client).query("match", tid=str(key))
+        if domain == 'scc':
+            s = Search(index=domain).using(self.client).query("match", tid=str(key))
         print s.to_dict()
         result = s.execute()
         if not result:

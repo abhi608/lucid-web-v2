@@ -80,8 +80,16 @@ export default class SearchView extends React.Component {
     requestSearch(e) {
         this.setState({loading: true});
         var data = {
-                  search_phrase:sanitize(this.state.search_phrase),
-  				};
+            search_phrase:sanitize(this.state.search_phrase),
+        };
+
+        var search = this.props.location.search;
+        if(search.charAt(0) == '?'){
+            search = search.substr(1);
+            if(search == 'scc'){
+                data['domain'] = search;
+            }
+        }
 
   		var esc = encodeURIComponent;
 		var query = Object.keys(data)
@@ -95,11 +103,15 @@ export default class SearchView extends React.Component {
         }).then((resp) => resp.json()).
         then(function(data){
             data['load_more'] = false;
-            parentThis.props.router.push({
+            var obj = {
                 pathname: '/results',
                 search: "?"+query,
                 state: {response: data}
-            });
+            };
+            if(search == 'scc'){
+                obj['pathname'] = '/resultsScc';
+            }
+            parentThis.props.router.push(obj);
             }
         );
             

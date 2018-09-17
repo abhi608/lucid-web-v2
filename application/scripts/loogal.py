@@ -8,8 +8,8 @@ class Loogal():
         self.search = Esearch(search_url=self.search_url)
         self.start = 0
 
-    def find_keyword(self, keyword, doc_filter=None):
-        s, n_hits = self.search.search_keyword(keyword, doc_filter, self.search_size)
+    def find_keyword(self, keyword, doc_filter=None, domain=None):
+        s, n_hits = self.search.search_keyword(keyword, doc_filter, self.search_size, domain)
         self.query = keyword
         self.s = s
         self.n_hits = n_hits
@@ -35,10 +35,10 @@ class Loogal():
         return self.s, hits_end, hit_list, res.aggregations
 
 
-    def fetch_document(self, key):
+    def fetch_document(self, key, domain=None):
         ''' Fetch document from database given key '''
         print "Getting doc ", key
-        document = self.search.get_doc(key)
+        document = self.search.get_doc(key, domain)
         # print "DoC: ", document
         return document
 
