@@ -105,7 +105,46 @@ export default class DocView extends React.Component {
             data['open'] = false;
             data['cite_available'] = false;
             data['doc_list'] = [];
-			parentThis.setState(data);
+            parentThis.setState(data);
+            var query_summary_url = 'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw';
+            var payload = {
+                "doc": data.response_doc.doc,
+                "query": query
+            };
+            var headers = {
+                'Content-Type': ' application/json'
+            };
+            try{
+                console.log("trying to hit summary server");
+                fetch(query_summary_url, {
+                    method: 'post',
+                    headers: headers,
+                    body: payload,
+                    timeout: 4000
+                }).then(function(response){
+                    var query_summary = response.json();
+                    console.log("query summary: ", query_summary, data);
+                    data.response_doc.query_summary = query_summary;
+                    parentThis.setState(data);
+                }).catch(function() {
+                    console.log("error in summary server");
+                    data.response_doc.query_summary = 'Query based summary not available';
+                    parentThis.setState(data);
+                });
+                
+                // then((response) => response.json()).
+                // then(function(query_summary){
+                //     console.log("query summary: ", query_summary, data);
+                //     data.response_doc.query_summary = query_summary;
+                //     parentThis.setState(data); 
+                // });
+            }
+            catch(err){
+                console.log("error in summary server: ", err);
+                data.response_doc.query_summary = 'Query based summary not available';
+                parentThis.setState(data); 
+            }
+            
         });
     }
 
