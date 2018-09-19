@@ -178,7 +178,7 @@ def doc_load():
 
 @app.route("/api/query_summarize", methods=["POST"])
 def query_summarize():
-    print "in query summa", request
+    # print "in query summa", request
     cur_query = request.get_json().get('query','')
     doc_content = request.get_json().get('doc','')
 
