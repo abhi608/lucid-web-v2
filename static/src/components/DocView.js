@@ -25,6 +25,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { List, ListItem } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import { parseJSON } from '../utils/misc';
 
 const classes = theme => ({
     root: {
@@ -105,9 +106,10 @@ export default class DocView extends React.Component {
             data['open'] = false;
             data['cite_available'] = false;
             data['doc_list'] = [];
+            data.response_doc.query_summary = "Loading..."
             parentThis.setState(data);
             // var query_summary_url = 'http://35.226.140.185:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw';
-	    var query_summary_url = '/api/query_summarize'
+	        var query_summary_url = '/api/query_summarize'
             var payload = {
                 "doc": data.response_doc.doc,
                 "query": query
@@ -120,16 +122,17 @@ export default class DocView extends React.Component {
                 fetch(query_summary_url, {
                     method: 'POST',
                     headers: headers,
-                    body: payload,
-                    timeout: 400
-                }).then(function(response){
-		    console.log(response)
-                    var query_summary = response.json();
-                    console.log("query summary: ", query_summary, data);
+                    body: JSON.stringify(payload),
+                    // timeout: 400
+                }).then((response) => response.json())
+                .then(function(query_summarize){
+		            console.log("lololol: ", query_summarize)
+                    var query_summary = query_summarize.query_summary;
+                    console.log("query summary: ", query_summary);
                     data.response_doc.query_summary = query_summary;
                     parentThis.setState(data);
                 }).catch(function(err) {
-		    console.log(errr)
+		            console.log(err)
                     data.response_doc.query_summary = 'Query based summary not available';
                     parentThis.setState(data);
                 });

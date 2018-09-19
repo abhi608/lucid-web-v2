@@ -178,22 +178,40 @@ def doc_load():
 
 @app.route("/api/query_summarize", methods=["POST"])
 def query_summarize():
-    print "in query summa"
-    query = request.get_json().get('query','')
+    print "in query summa", request
+    cur_query = request.get_json().get('query','')
     doc_content = request.get_json().get('doc','')
-    print query, doc_content
 
-    data = '{"doc":'+ doc_content + ',"query":'+query+'}'
+    doc_content = str(doc_content)
+    cur_query = str(cur_query)
+
+    data = {
+        'doc': doc_content,
+        'query': cur_query
+    }
+    data = json.dumps(data)
+    # print "data: ", data
+
+    headers = {
+        'content-type': 'application/json'
+    }
 
     start = time.time()
     try:
         response = session.post(
-            'http://35.226.140.185:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
+            'http://35.239.81.29:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
         print "summary_time = "+ str(time.time()-start)
+        # print "resp: ", response.text
         query_summary = json.loads(response.text)['summary']
     except Exception as e:
         query_summary = "Query based summary not not available"
-    return response
+    # print "query_summary: ", query_summary
+    # resp = {
+    #     "query_summary": query_summary
+    # }
+    return jsonify(
+        query_summary=str(query_summary)
+    )
  
 
 @app.route("/api/search", methods=["GET"])
