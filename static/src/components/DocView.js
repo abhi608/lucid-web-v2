@@ -106,28 +106,30 @@ export default class DocView extends React.Component {
             data['cite_available'] = false;
             data['doc_list'] = [];
             parentThis.setState(data);
-            var query_summary_url = 'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw';
+            // var query_summary_url = 'http://35.226.140.185:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw';
+	    var query_summary_url = '/api/query_summarize'
             var payload = {
                 "doc": data.response_doc.doc,
                 "query": query
             };
             var headers = {
-                'Content-Type': ' application/json'
+                'Content-Type': 'application/json'
             };
             try{
                 console.log("trying to hit summary server");
                 fetch(query_summary_url, {
-                    method: 'post',
+                    method: 'POST',
                     headers: headers,
                     body: payload,
-                    timeout: 4000
+                    timeout: 400
                 }).then(function(response){
+		    console.log(response)
                     var query_summary = response.json();
                     console.log("query summary: ", query_summary, data);
                     data.response_doc.query_summary = query_summary;
                     parentThis.setState(data);
-                }).catch(function() {
-                    console.log("error in summary server");
+                }).catch(function(err) {
+		    console.log(errr)
                     data.response_doc.query_summary = 'Query based summary not available';
                     parentThis.setState(data);
                 });

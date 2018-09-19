@@ -124,7 +124,7 @@ def doc_load():
     if request.args.get("tid"):
         tid = str(request.args.get("tid"))
     
-    cur_query = None
+    cur_query = None 
     if request.args.get("query"):
         cur_query = str(request.args.get("query"))
     print tid, cur_query
@@ -156,22 +156,45 @@ def doc_load():
         data = '{"doc":'+ doc_content + ',"query":'+cur_query+'}'
 
         start = time.time()
-        response_doc['query_summary'] = "Query based summary loading..."
+        # response_doc['query_summary'] = "Query based summary loading..."
         # try:
         #     response = session.post(
-        #         'http://35.188.194.243:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
+        #         'http://35.226.140.185:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
         #     print "summary_time = "+ str(time.time()-start)
         #     response_doc['query_summary'] = json.loads(response.text)['summary']
         # except Exception as e:
         #     response_doc['query_summary'] = "Query based summary not available"
     else:
         response_doc['query_summary'] = None
+    response_doc['query_summary'] = None
+
 
     response_doc['request_completed'] = True
     
 
     # print response_doc
     return jsonify(response_doc = response_doc)
+
+
+@app.route("/api/query_summarize", methods=["POST"])
+def query_summarize():
+    print "in query summa"
+    query = request.get_json().get('query','')
+    doc_content = request.get_json().get('doc','')
+    print query, doc_content
+
+    data = '{"doc":'+ doc_content + ',"query":'+query+'}'
+
+    start = time.time()
+    try:
+        response = session.post(
+            'http://35.226.140.185:80/query_summarize?key=AIzaSyBGktXQ3IPpwymVSAko08kxbIY4UcGQorw', headers=headers, data=data, timeout = 10)
+        print "summary_time = "+ str(time.time()-start)
+        query_summary = json.loads(response.text)['summary']
+    except Exception as e:
+        query_summary = "Query based summary not not available"
+    return response
+ 
 
 @app.route("/api/search", methods=["GET"])
 def search():
