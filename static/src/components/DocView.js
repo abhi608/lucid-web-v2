@@ -26,12 +26,27 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { List, ListItem } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import { parseJSON } from '../utils/misc';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const classes = theme => ({
     root: {
       width: '100%',
       maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
+    },
+    heading: {
+        // fontSize: "2rem",
+    },
+    foldable: {
+        width: '100%',
+    },
+    card: {
+        maxWidth: 345,
+        // minWidth: 250,
+        // width: 100
     },
 });
 
@@ -272,47 +287,129 @@ export default class DocView extends React.Component {
                     </div>
 
                     <Card style={styles.card}>
-                        <CardContent>
+                        <CardContent style={{backgroundColor: "#f8f8f8"}}>
                             <Typography style={styles.title} align="center" color="primary" variant="headline">
-                                {this.state.response_doc.title}  
+                                <div style={{fontSize: 18}} dangerouslySetInnerHTML={{__html: "<h4><strong>"+this.state.response_doc.title + "</strong></h4>"}}></div>
                             </Typography>
-
 
                             <div className="row">
                                 <div className="col-md-6">
-                                    <Typography style={styles.title} color="textSecondary" >
-                                        <div dangerouslySetInnerHTML={{__html: "<strong>Type: </strong>" + this.state.response_doc.divtype}}></div>  
-                                    </Typography>
-                                    <Typography style={styles.title} color="textSecondary">
-                                        <div dangerouslySetInnerHTML={{__html: "<strong>Author: </strong>" + this.state.response_doc.author}}></div>  
-                                    </Typography>
-                                    <Typography style={styles.title} color="textSecondary">
-                                        <div dangerouslySetInnerHTML={{__html: "<strong>Bench: </strong>" + this.state.response_doc.bench}}></div>  
-                                    </Typography>
-                                    <Typography style={styles.title} color="textSecondary">
-                                        <div dangerouslySetInnerHTML={{__html: "<strong>Source: </strong>" + this.state.response_doc.source}}></div>  
-                                    </Typography>
+                                    <Card className={classes.card}>
+                                        <CardContent>
+                                            <Typography gutterBottom variant="headline" component="h2">
+                                                Type
+                                            </Typography>
+                                            <Typography component="p">
+                                                <div style={{fontSize: 10}} dangerouslySetInnerHTML={{__html: this.state.response_doc.divtype}}></div>
+                                            </Typography>
+                                            <br/>
+                                            <Divider/>
+                                            <br/>
+                                            <Typography gutterBottom variant="headline" component="h2">
+                                                Author
+                                            </Typography>
+                                            <Typography component="p">
+                                                <div style={{fontSize: 10}} dangerouslySetInnerHTML={{__html: this.state.response_doc.author}}></div>
+                                            </Typography>
+                                            <br/>
+                                            <Divider/>
+                                            <br/>
+                                            <Typography gutterBottom variant="headline" component="h2">
+                                                Bench
+                                            </Typography>
+                                            <Typography component="p">
+                                                <div style={{fontSize: 10}} dangerouslySetInnerHTML={{__html: this.state.response_doc.bench}}></div>
+                                            </Typography>
+                                            <br/>
+                                            <Divider/>
+                                            <br/>
+                                            <Typography gutterBottom variant="headline" component="h2">
+                                                Source
+                                            </Typography>
+                                            <Typography component="p">
+                                                <div style={{fontSize: 10}} dangerouslySetInnerHTML={{__html: this.state.response_doc.source}}></div>
+                                            </Typography>
+                                            {/* <br/>
+                                            <Divider/>
+                                            <br/> */}
+                                        </CardContent>
+                                    </Card>
                                 </div>
-                                <div class="col-md-3 col-offset-9" >
-                                    <Button variant="contained" size="medium" onClick={this.openCiteList} color="secondary">Citations</Button>
-                                </div>
-                                <div class="col-md-3 col-offset-9">
-                                    <Button variant="contained" size="medium" onClick={this.openCitedByList} color="secondary">Cited By</Button>
+
+                                <div className="col-md-6 col-offset-6">
+                                    <Card className={classes.card}>
+                                        <CardContent>
+                                            <Button variant="contained" size="medium" onClick={this.openCiteList} color="secondary">Citations</Button>
+                                            <br/>
+                                            {/* <Divider/> */}
+                                            <br/>
+                                            <Button variant="contained" size="medium" onClick={this.openCitedByList} color="secondary">Cited By</Button>
+                                        </CardContent>
+                                    </Card>
                                 </div>
                             </div>
-                            {this.state.response_doc.query_summary?
-                                <Typography style={styles.title} color="textSecondary">
-                                    <div dangerouslySetInnerHTML={{__html: "<strong>Query based Summary: </strong>" + this.state.response_doc.query_summary}}></div>  
-                                </Typography>:
-                                console.log("no query based summarization")
-                            }
-                            
-                            <Typography style={styles.title} color="textSecondary">
-                                <div dangerouslySetInnerHTML={{__html: "<strong>Summary: </strong>" + this.state.response_doc.summary}}></div>  
-                            </Typography>
-                            <Typography style={styles.title} color="textSecondary">
-                                <div dangerouslySetInnerHTML={{__html: "<strong>Content: </strong>" + this.state.response_doc.doc}}></div>  
-                            </Typography>
+                            <br/>
+                            <br/>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <Card className={classes.card}>    
+                                        <div className={classes.foldable}>
+                                            <ExpansionPanel>
+                                                <ExpansionPanelSummary style={{height: 5}} expandIcon={<ExpandMoreIcon />}>
+                                                <Typography className={classes.heading}>
+                                                    <div dangerouslySetInnerHTML={{__html: "<h5><strong>Query Based Summary</strong></h5>"}}></div>
+                                                </Typography>
+                                                </ExpansionPanelSummary>
+                                                <ExpansionPanelDetails>
+                                                <Typography>
+                                                    <div style={{fontSize: 14, display: 'block', maxHeight: 400, overflow:'auto'}} dangerouslySetInnerHTML={{__html: this.state.response_doc.query_summary}}></div>
+                                                </Typography>
+                                                </ExpansionPanelDetails>
+                                            </ExpansionPanel>
+                                        </div>
+                                    </Card>
+
+                                    <br/>
+                                    <br/>
+
+                                    <Card className={classes.card}>    
+                                        <div className={classes.foldable}>
+                                            <ExpansionPanel>
+                                                <ExpansionPanelSummary style={{height: 5}} expandIcon={<ExpandMoreIcon />}>
+                                                <Typography className={classes.heading}>
+                                                    <div dangerouslySetInnerHTML={{__html: "<h5><strong>Document Summary</strong></h5>"}}></div>
+                                                </Typography>
+                                                </ExpansionPanelSummary>
+                                                <ExpansionPanelDetails>
+                                                <Typography>
+                                                    <div style={{fontSize: 14, display: 'block', maxHeight: 400, overflow:'auto'}} dangerouslySetInnerHTML={{__html: this.state.response_doc.summary}}></div>
+                                                </Typography>
+                                                </ExpansionPanelDetails>
+                                            </ExpansionPanel>
+                                        </div>
+                                    </Card>    
+
+                                    <br/>
+                                    <br/>
+
+                                    <Card className={classes.card}>    
+                                        <div className={classes.foldable}>
+                                            <ExpansionPanel>
+                                                <ExpansionPanelSummary style={{height: 5}} expandIcon={<ExpandMoreIcon />}>
+                                                <Typography className={classes.heading}>
+                                                    <div dangerouslySetInnerHTML={{__html: "<h5><strong>Document</strong></h5>"}}></div>
+                                                </Typography>
+                                                </ExpansionPanelSummary>
+                                                <ExpansionPanelDetails>
+                                                <Typography>
+                                                    <div style={{fontSize: 10, display: 'block', maxHeight: 650, overflow:'auto'}} dangerouslySetInnerHTML={{__html: this.state.response_doc.doc}}></div>
+                                                </Typography>
+                                                </ExpansionPanelDetails>
+                                            </ExpansionPanel>
+                                        </div>
+                                    </Card>
+                                </div>
+                            </div>
                             
                         </CardContent>
                     </Card>
